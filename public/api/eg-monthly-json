@@ -1,0 +1,23 @@
+{
+  "monthly_summary": {
+    "userId1": {
+      "2024-12": {
+        "total_expenses": 90.50,
+        "categories": {
+          "Food": 25.50,
+          "Transport": 15.00,
+          "Entertainment": 50.00
+        }
+      }
+    },
+    "userId2": {
+      "2024-12": {
+        "total_expenses": 40.00,
+        "categories": {
+          "Food": 30.00,
+          "Transport": 10.00
+        }
+      }
+    }
+  }
+}

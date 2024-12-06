@@ -1,0 +1,196 @@
+{
+  "users": {
+    "userId1": {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "USD",
+        "language": "en"
+      },
+      "expenses": ["expenseId1", "expenseId2", "expenseId3"],
+      "budget": {
+        "2024-12": {
+          "Food": 200,
+          "Transport": 100,
+          "Entertainment": 50,
+          "Shopping": 150,
+          "Bills": 120,
+          "Healthcare": 100,
+          "Education": 200,
+          "Miscellaneous": 80
+        }
+      },
+      "country": "USA"
+    },
+    "userId2": {
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "EUR",
+        "language": "fr"
+      },
+      "expenses": ["expenseId4", "expenseId5"],
+      "budget": {
+        "2024-12": {
+          "Food": 150,
+          "Transport": 80,
+          "Entertainment": 60,
+          "Shopping": 130,
+          "Bills": 100,
+          "Healthcare": 90,
+          "Education": 180,
+          "Miscellaneous": 75
+        }
+      },
+      "country": "France"
+    },
+    "userId3": {
+      "name": "Carlos Garcia",
+      "email": "carlos.garcia@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "MXN",
+        "language": "es"
+      },
+      "expenses": ["expenseId6", "expenseId7"],
+      "budget": {
+        "2024-12": {
+          "Food": 100,
+          "Transport": 60,
+          "Entertainment": 40,
+          "Shopping": 120,
+          "Bills": 100,
+          "Healthcare": 85,
+          "Education": 150,
+          "Miscellaneous": 90
+        }
+      },
+      "country": "Mexico"
+    }
+  },
+  "expenses": {
+    "expenseId1": {
+      "category": "Food",
+      "amount": 25.5,
+      "date": "2024-12-05",
+      "description": "Lunch at a restaurant",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId2": {
+      "category": "Transport",
+      "amount": 15.0,
+      "date": "2024-12-04",
+      "description": "Bus ticket",
+      "payment_method": "Cash",
+      "userId": "userId1"
+    },
+    "expenseId3": {
+      "category": "Entertainment",
+      "amount": 50.0,
+      "date": "2024-12-03",
+      "description": "Movie tickets",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId4": {
+      "category": "Food",
+      "amount": 30.0,
+      "date": "2024-12-05",
+      "description": "Dinner at a restaurant",
+      "payment_method": "PayPal",
+      "userId": "userId2"
+    },
+    "expenseId5": {
+      "category": "Transport",
+      "amount": 10.0,
+      "date": "2024-12-06",
+      "description": "Taxi fare",
+      "payment_method": "Cash",
+      "userId": "userId2"
+    },
+    "expenseId6": {
+      "category": "Food",
+      "amount": 20.0,
+      "date": "2024-12-06",
+      "description": "Tacos",
+      "payment_method": "Cash",
+      "userId": "userId3"
+    },
+    "expenseId7": {
+      "category": "Entertainment",
+      "amount": 40.0,
+      "date": "2024-12-02",
+      "description": "Concert tickets",
+      "payment_method": "Debit Card",
+      "userId": "userId3"
+    }
+  },
+  "categories": [
+    "Food",
+    "Transport",
+    "Entertainment",
+    "Shopping",
+    "Bills",
+    "Healthcare",
+    "Education",
+    "Miscellaneous"
+  ],
+  "payment_methods": [
+    "Cash",
+    "Credit Card",
+    "Debit Card",
+    "PayPal",
+    "Bank Transfer",
+    "Others"
+  ],
+  "monthly_summary": {
+    "userId1": {
+      "2024-12": {
+        "total_expenses": 90.5,
+        "categories": {
+          "Food": 25.5,
+          "Transport": 15.0,
+          "Entertainment": 50.0,
+          "Shopping": 0,
+          "Bills": 0,
+          "Healthcare": 0,
+          "Education": 0,
+          "Miscellaneous": 0
+        }
+      }
+    },
+    "userId2": {
+      "2024-12": {
+        "total_expenses": 40.0,
+        "categories": {
+          "Food": 30.0,
+          "Transport": 10.0,
+          "Entertainment": 0,
+          "Shopping": 0,
+          "Bills": 0,
+          "Healthcare": 0,
+          "Education": 0,
+          "Miscellaneous": 0
+        }
+      }
+    },
+    "userId3": {
+      "2024-12": {
+        "total_expenses": 60.0,
+        "categories": {
+          "Food": 20.0,
+          "Transport": 0,
+          "Entertainment": 40.0,
+          "Shopping": 0,
+          "Bills": 0,
+          "Healthcare": 0,
+          "Education": 0,
+          "Miscellaneous": 0
+        }
+      }
+    }
+  }
+}

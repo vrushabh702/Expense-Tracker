@@ -1,0 +1,209 @@
+{
+  "users": {
+    "userId1": {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "USD",
+        "language": "en"
+      },
+      "expenses": ["expenseId1", "expenseId2", "expenseId3"],
+      "budget": {
+        "2024-12": {
+          "Food": 200,
+          "Transport": 100,
+          "Entertainment": 50,
+          "Shopping": 150,
+          "Bills": 120,
+          "Healthcare": 100,
+          "Education": 200,
+          "Miscellaneous": 80
+        }
+      },
+      "country": "USA"
+    },
+    "userId2": {
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "EUR",
+        "language": "fr"
+      },
+      "expenses": ["expenseId4", "expenseId5"],
+      "budget": {
+        "2024-12": {
+          "Food": 150,
+          "Transport": 80,
+          "Entertainment": 60,
+          "Shopping": 130,
+          "Bills": 100,
+          "Healthcare": 90,
+          "Education": 180,
+          "Miscellaneous": 75
+        }
+      },
+      "country": "France"
+    },
+    "userId3": {
+      "name": "Carlos Garcia",
+      "email": "carlos.garcia@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "MXN",
+        "language": "es"
+      },
+      "expenses": ["expenseId6", "expenseId7"],
+      "budget": {
+        "2024-12": {
+          "Food": 100,
+          "Transport": 60,
+          "Entertainment": 40,
+          "Shopping": 120,
+          "Bills": 100,
+          "Healthcare": 85,
+          "Education": 150,
+          "Miscellaneous": 90
+        }
+      },
+      "country": "Mexico"
+    },
+    "userId4": {
+      "name": "Alex Liu",
+      "email": "alex.liu@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "CNY",
+        "language": "zh"
+      },
+      "expenses": ["expenseId8", "expenseId9"],
+      "budget": {
+        "2024-12": {
+          "Food": 250,
+          "Transport": 100,
+          "Entertainment": 70,
+          "Shopping": 180,
+          "Bills": 140,
+          "Healthcare": 120,
+          "Education": 220,
+          "Miscellaneous": 100
+        }
+      },
+      "country": "China"
+    },
+    "userId5": {
+      "name": "Maria Gonzalez",
+      "email": "maria.gonzalez@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "BRL",
+        "language": "pt"
+      },
+      "expenses": ["expenseId10", "expenseId11"],
+      "budget": {
+        "2024-12": {
+          "Food": 200,
+          "Transport": 90,
+          "Entertainment": 50,
+          "Shopping": 160,
+          "Bills": 130,
+          "Healthcare": 110,
+          "Education": 190,
+          "Miscellaneous": 80
+        }
+      },
+      "country": "Brazil"
+    }
+  },
+  "expenses": {
+    "expenseId1": {
+      "category": "Food",
+      "amount": 25.5,
+      "date": "2024-12-05",
+      "description": "Lunch at a restaurant",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId2": {
+      "category": "Transport",
+      "amount": 15.0,
+      "date": "2024-12-04",
+      "description": "Bus ticket",
+      "payment_method": "Cash",
+      "userId": "userId1"
+    },
+    "expenseId3": {
+      "category": "Entertainment",
+      "amount": 50.0,
+      "date": "2024-12-03",
+      "description": "Movie tickets",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId4": {
+      "category": "Food",
+      "amount": 30.0,
+      "date": "2024-12-05",
+      "description": "Dinner at a restaurant",
+      "payment_method": "PayPal",
+      "userId": "userId2"
+    },
+    "expenseId5": {
+      "category": "Transport",
+      "amount": 10.0,
+      "date": "2024-12-06",
+      "description": "Taxi fare",
+      "payment_method": "Cash",
+      "userId": "userId2"
+    },
+    "expenseId6": {
+      "category": "Food",
+      "amount": 20.0,
+      "date": "2024-12-06",
+      "description": "Tacos",
+      "payment_method": "Cash",
+      "userId": "userId3"
+    },
+    "expenseId7": {
+      "category": "Entertainment",
+      "amount": 40.0,
+      "date": "2024-12-02",
+      "description": "Concert tickets",
+      "payment_method": "Debit Card",
+      "userId": "userId3"
+    },
+    "expenseId8": {
+      "category": "Food",
+      "amount": 35.0,
+      "date": "2024-12-07",
+      "description": "Dim sum",
+      "payment_method": "Debit Card",
+      "userId": "userId4"
+    },
+    "expenseId9": {
+      "category": "Transport",
+      "amount": 25.0,
+      "date": "2024-12-06",
+      "description": "Train ticket",
+      "payment_method": "Credit Card",
+      "userId": "userId4"
+    },
+    "expenseId10": {
+      "category": "Food",
+      "amount": 40.0,
+      "date": "2024-12-06",
+      "description": "Feijoada",
+      "payment_method": "Cash",
+      "userId": "userId5"
+    },
+    "expenseId11": {
+      "category": "Entertainment",
+      "amount": 55.0,
+      "date": "2024-12-05",
+      "description": "Samba show",
+      "payment_method": "Credit Card",
+      "userId": "userId5"
+    }
+  }
+}

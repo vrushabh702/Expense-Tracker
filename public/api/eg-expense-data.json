@@ -1,0 +1,44 @@
+{
+  "expenses": {
+    "expenseId1": {
+      "category": "Food",
+      "amount": 25.5,
+      "date": "2024-12-05",
+      "description": "Lunch at a restaurant",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId2": {
+      "category": "Transport",
+      "amount": 15.0,
+      "date": "2024-12-04",
+      "description": "Bus ticket",
+      "payment_method": "Cash",
+      "userId": "userId1"
+    },
+    "expenseId3": {
+      "category": "Entertainment",
+      "amount": 50.0,
+      "date": "2024-12-03",
+      "description": "Movie tickets",
+      "payment_method": "Credit Card",
+      "userId": "userId1"
+    },
+    "expenseId4": {
+      "category": "Food",
+      "amount": 30.0,
+      "date": "2024-12-05",
+      "description": "Dinner at a restaurant",
+      "payment_method": "PayPal",
+      "userId": "userId2"
+    },
+    "expenseId5": {
+      "category": "Transport",
+      "amount": 10.0,
+      "date": "2024-12-06",
+      "description": "Taxi fare",
+      "payment_method": "Cash",
+      "userId": "userId2"
+    }
+  }
+}

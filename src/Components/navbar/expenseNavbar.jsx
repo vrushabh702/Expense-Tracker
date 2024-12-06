@@ -2,7 +2,7 @@ import React from "react"
 
 import { Link } from "react-router-dom"
 
-const Navbar = () => {
+const ExpenseNavbar = () => {
   return (
     <div className="bg-gray-800 p-4">
       <ul className="flex space-x-6">
@@ -12,12 +12,12 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/all-expenses" className="text-white hover:text-gray-400">
+          <Link to="/expenses" className="text-white hover:text-gray-400">
             Expenses
           </Link>
         </li>
         <li>
-          <Link to="/all-chart" className="text-white hover:text-gray-400">
+          <Link to="/chart" className="text-white hover:text-gray-400">
             Chart
           </Link>
         </li>
@@ -26,4 +26,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default ExpenseNavbar

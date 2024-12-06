@@ -1,0 +1,19 @@
+{
+  "reports": {
+    "userId1": {
+      "2024-12": {
+        "type": "Monthly",
+        "total_expenses": 90.5,
+        "categories": {
+          "Food": 25.5,
+          "Transport": 15.0,
+          "Entertainment": 50.0
+        },
+        "chart_data": {
+          "labels": ["Food", "Transport", "Entertainment"],
+          "data": [25.5, 15.0, 50.0]
+        }
+      }
+    }
+  }
+}

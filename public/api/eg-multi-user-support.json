@@ -1,0 +1,24 @@
+{
+  "users": {
+    "userId1": {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "USD",
+        "language": "en"
+      },
+      "expenses": ["expenseId1", "expenseId2", "expenseId3"]
+    },
+    "userId2": {
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "profile_picture": "url-to-profile-picture",
+      "preferences": {
+        "currency": "EUR",
+        "language": "fr"
+      },
+      "expenses": ["expenseId4", "expenseId5"]
+    }
+  }
+}

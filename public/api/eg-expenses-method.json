@@ -1,0 +1,10 @@
+{
+  "payment_methods": [
+    "Cash",
+    "Credit Card",
+    "Debit Card",
+    "PayPal",
+    "Bank Transfer",
+    "Others"
+  ]
+}
