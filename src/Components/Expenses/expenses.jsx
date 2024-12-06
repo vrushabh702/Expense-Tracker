@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import ExpensesTable from "./expensesTable"
 import Dropdown from "./expensesDropDown"
+import Modal from "./modelView"
 
 const App = () => {
   const [data, setData] = useState([])
@@ -9,6 +10,8 @@ const App = () => {
   const [paymentMethods, setPaymentMethods] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
+  const [modalOpen, setModalOpen] = useState(false)
+  const [currentExpense, setCurrentExpense] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +41,8 @@ const App = () => {
           .map((expense) => ({
             ...expense,
             userName: user.name,
+            userCountry: user.country,
+            userEmail: user.email,
             budget: budgets.find((budget) => budget.userId === user.userId)
               ?.categories[expense.category],
           })),
@@ -46,12 +51,15 @@ const App = () => {
       const mergedExpenses = normalizedData.flatMap((user) =>
         user.expenses.map((expense) => ({
           userName: user.name,
+          userCountry: user.country,
+          userEmail: user.email,
           category: expense.category,
           amount: expense.amount,
           date: expense.date,
           description: expense.description,
           paymentMethod: expense.payment_method,
           budget: expense.budget || "N/A",
+          currency: expense.currency || "INR",
         }))
       )
 
@@ -72,9 +80,16 @@ const App = () => {
     setFilteredData(filtered)
   }
 
+  const handleViewExpense = (expense) => {
+    setCurrentExpense(expense)
+    setModalOpen(true)
+  }
+
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
+      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+        Expense Tracker
+      </h2>
       <div className="flex gap-4 mb-6">
         <Dropdown
           options={categories}
@@ -93,7 +108,12 @@ const App = () => {
           placeholder="Select Payment Method"
         />
       </div>
-      <ExpensesTable expenses={filteredData} />
+      <ExpensesTable expenses={filteredData} onView={handleViewExpense} />
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        expense={currentExpense}
+      />
     </div>
   )
 }
