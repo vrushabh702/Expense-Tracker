@@ -8,7 +8,7 @@ const Expenses = () => {
   useEffect(() => {
     // Assuming your JSON data is hosted at an endpoint, replace with your actual URL
     axios
-      .get("http://localhost:3000/api/expenses.json")
+      .get("http://localhost:3000/server/expenses.json")
       // Replace with your API URL
       .then((response) => {
         setData(response.data) // Update the state with the fetched data

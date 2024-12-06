@@ -1,0 +1,32 @@
+[
+  {
+    "budgetId": "budgetId1",
+    "userId": "userId1",
+    "month": "2024-12",
+    "categories": {
+      "Food": 200,
+      "Transport": 100,
+      "Entertainment": 50,
+      "Shopping": 150,
+      "Bills": 120,
+      "Healthcare": 100,
+      "Education": 200,
+      "Miscellaneous": 80
+    }
+  },
+  {
+    "budgetId": "budgetId2",
+    "userId": "userId2",
+    "month": "2024-12",
+    "categories": {
+      "Food": 150,
+      "Transport": 80,
+      "Entertainment": 60,
+      "Shopping": 130,
+      "Bills": 100,
+      "Healthcare": 90,
+      "Education": 180,
+      "Miscellaneous": 75
+    }
+  }
+]
