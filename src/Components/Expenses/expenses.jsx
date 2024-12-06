@@ -2,33 +2,66 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 
 const Expenses = () => {
-  const [data, setData] = useState(null) // State to store the fetched data
-  const [loading, setLoading] = useState(true) // Loading state
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    // Assuming your JSON data is hosted at an endpoint, replace with your actual URL
     axios
       .get("http://localhost:3000/server/expenses.json")
-      // Replace with your API URL
       .then((response) => {
-        setData(response.data) // Update the state with the fetched data
-        setLoading(false) // Set loading to false after data is fetched
+        setData(response.data)
+        setLoading(false)
+        setError(null)
       })
       .catch((error) => {
         console.error("Error fetching data", error)
         setLoading(false)
+        setError("There was an issue loading the data. please try again later")
       })
-  }, []) // Empty array means this effect runs only once after the initial render
-
-  // Check if the data is still loading
+  }, [])
   if (loading) {
-    return <div>Loading...</div>
-  }
-  // If no data is fetched
-  if (!data) {
-    return <div>No data available</div>
+    return (
+      <div className="text-center">
+        <div className="flex justify-center items-center">
+          <div className="w-16 h-16 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin border-t-blue-500"></div>
+        </div>
+        <p className="mt-4">Loading...</p>
+      </div>
+    )
   }
 
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-red-100">
+        <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
+          <div className="mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-16 h-16 text-red-400 mx-auto"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-semibold text-red-700 mb-2">
+            No Data Available
+          </h3>
+          <p className="text-red-500">
+            It looks like there's nothing to display at the moment. Please try
+            again later.
+          </p>
+        </div>
+      </div>
+    )
+  }
   const rows = []
   Object.keys(data.users).forEach((userId) => {
     const user = data.users[userId]
@@ -50,13 +83,11 @@ const Expenses = () => {
       })
     })
   })
-
   return (
     <div className="App p-10 bg-gray-100">
       <h1 className="text-4xl font-bold text-center text-blue-600">
         All Expenses
       </h1>
-
       <div className="overflow-x-auto p-8">
         <table className="min-w-full bg-white shadow-xl rounded-lg">
           <thead>
