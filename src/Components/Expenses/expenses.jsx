@@ -1,128 +1,101 @@
-import React, { useEffect, useState } from "react"
-import axios from "axios"
+import React, { useState, useEffect } from "react"
+import ExpensesTable from "./expensesTable"
+import Dropdown from "./expensesDropDown"
 
-const Expenses = () => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+const App = () => {
+  const [data, setData] = useState([])
+  const [filteredData, setFilteredData] = useState([])
+  const [categories, setCategories] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState("")
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/server/expenseds.json")
-      .then((response) => {
-        setData(response.data)
-        setLoading(false)
-        setError(null)
-      })
-      .catch((error) => {
-        console.error("Error fetching data", error)
-        setLoading(false)
-        setError("There was an issue loading the data. please try again later")
-      })
+    const fetchData = async () => {
+      const users = await fetch("http://localhost:3000/api/user.json").then(
+        (res) => res.json()
+      )
+      const expenses = await fetch(
+        "http://localhost:3000/api/expenses.json"
+      ).then((res) => res.json())
+      const budgets = await fetch("http://localhost:3000/api/budget.json").then(
+        (res) => res.json()
+      )
+      const categories = await fetch(
+        "http://localhost:3000/api/categories.json"
+      ).then((res) => res.json())
+      const paymentMethods = await fetch(
+        "http://localhost:3000/api/paymentMethod.json"
+      ).then((res) => res.json())
+
+      setCategories(categories)
+      setPaymentMethods(paymentMethods)
+
+      const normalizedData = users.map((user) => ({
+        ...user,
+        expenses: expenses
+          .filter((expense) => expense.userId === user.userId)
+          .map((expense) => ({
+            ...expense,
+            userName: user.name,
+            budget: budgets.find((budget) => budget.userId === user.userId)
+              ?.categories[expense.category],
+          })),
+      }))
+
+      const mergedExpenses = normalizedData.flatMap((user) =>
+        user.expenses.map((expense) => ({
+          userName: user.name,
+          category: expense.category,
+          amount: expense.amount,
+          date: expense.date,
+          description: expense.description,
+          paymentMethod: expense.payment_method,
+          budget: expense.budget || "N/A",
+        }))
+      )
+
+      setData(mergedExpenses)
+      setFilteredData(mergedExpenses)
+    }
+
+    fetchData()
   }, [])
-  if (loading) {
-    return (
-      <div className="text-center">
-        <div className="flex justify-center items-center">
-          <div className="w-16 h-16 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin border-t-blue-500"></div>
-        </div>
-        <p className="mt-4">Loading...</p>
-      </div>
-    )
+
+  const handleFilterChange = (category, paymentMethod) => {
+    const filtered = data.filter((expense) => {
+      return (
+        (category ? expense.category === category : true) &&
+        (paymentMethod ? expense.paymentMethod === paymentMethod : true)
+      )
+    })
+    setFilteredData(filtered)
   }
 
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-red-100">
-        <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
-          <div className="mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-16 h-16 text-red-400 mx-auto"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-2xl font-semibold text-red-700 mb-2">
-            Error: {error}
-          </h3>
-          <p className="text-red-500">
-            Please try again later or contact support if the problem persists.
-          </p>
-        </div>
-      </div>
-    )
-  }
-  const rows = []
-  Object.keys(data.users).forEach((userId) => {
-    const user = data.users[userId]
-    user.expenses.forEach((expenseId) => {
-      const expense = data.expenses[expenseId]
-      rows.push({
-        userName: user.name,
-        userCountry: user.country,
-        userEmail: user.email,
-        category: expense.category,
-        amount: `${user.preferences.currency} ${expense.amount}`,
-        paymentMethod: expense.payment_method,
-        date: expense.date,
-        description: expense.description,
-        budget: `${user.preferences.currency} ${
-          user.budget["2024-12"][expense.category]
-        }`,
-        currency: user.preferences.currency,
-      })
-    })
-  })
   return (
-    <div className="App p-10 bg-gray-100">
-      <h1 className="text-4xl font-bold text-center text-blue-600">
-        All Expenses
-      </h1>
-      <div className="overflow-x-auto p-8">
-        <table className="min-w-full bg-white shadow-xl rounded-lg">
-          <thead>
-            <tr className="bg-gray-800 text-white">
-              <th className="px-6 py-3 text-sm font-medium">User Name</th>
-              <th className="px-6 py-3 text-sm font-medium">Country</th>
-              <th className="px-6 py-3 text-sm font-medium">Email</th>
-              <th className="px-6 py-3 text-sm font-medium">Category</th>
-              <th className="px-6 py-3 text-sm font-medium">Amount</th>
-              <th className="px-6 py-3 text-sm font-medium">Payment Method</th>
-              <th className="px-6 py-3 text-sm font-medium">Date</th>
-              <th className="px-6 py-3 text-sm font-medium">Description</th>
-              <th className="px-6 py-3 text-sm font-medium">Budget</th>
-              <th className="px-6 py-3 text-sm font-medium">Currency</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="px-6 py-3 text-sm">{row.userName}</td>
-                <td className="px-6 py-3 text-sm">{row.userCountry}</td>
-                <td className="px-6 py-3 text-sm">{row.userEmail}</td>
-                <td className="px-6 py-3 text-sm">{row.category}</td>
-                <td className="px-6 py-3 text-sm">{row.amount}</td>
-                <td className="px-6 py-3 text-sm">{row.paymentMethod}</td>
-                <td className="px-6 py-3 text-sm">{row.date}</td>
-                <td className="px-6 py-3 text-sm">{row.description}</td>
-                <td className="px-6 py-3 text-sm">{row.budget}</td>
-                <td className="px-6 py-3 text-sm">{row.currency}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
+      <div className="flex gap-4 mb-6">
+        <Dropdown
+          options={categories}
+          onChange={(e) => {
+            setSelectedCategory(e.target.value)
+            handleFilterChange(e.target.value, selectedPaymentMethod)
+          }}
+          placeholder="Select Category"
+        />
+        <Dropdown
+          options={paymentMethods}
+          onChange={(e) => {
+            setSelectedPaymentMethod(e.target.value)
+            handleFilterChange(selectedCategory, e.target.value)
+          }}
+          placeholder="Select Payment Method"
+        />
       </div>
+      <ExpensesTable expenses={filteredData} />
     </div>
   )
 }
 
-export default Expenses
+export default App
