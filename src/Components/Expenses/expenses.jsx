@@ -8,7 +8,7 @@ const Expenses = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/server/expenses.json")
+      .get("http://localhost:3000/server/expenseds.json")
       .then((response) => {
         setData(response.data)
         setLoading(false)
@@ -31,7 +31,7 @@ const Expenses = () => {
     )
   }
 
-  if (!data) {
+  if (error) {
     return (
       <div className="flex justify-center items-center h-screen bg-red-100">
         <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
@@ -52,11 +52,10 @@ const Expenses = () => {
             </svg>
           </div>
           <h3 className="text-2xl font-semibold text-red-700 mb-2">
-            No Data Available
+            Error: {error}
           </h3>
           <p className="text-red-500">
-            It looks like there's nothing to display at the moment. Please try
-            again later.
+            Please try again later or contact support if the problem persists.
           </p>
         </div>
       </div>
