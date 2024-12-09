@@ -1,6 +1,6 @@
 import React from "react"
 
-const Modal = ({ isOpen, onClose, expense }) => {
+const ExpensesViewModal = ({ isOpen, onClose, expense }) => {
   if (!isOpen || !expense) return null
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
@@ -89,4 +89,4 @@ const Modal = ({ isOpen, onClose, expense }) => {
   )
 }
 
-export default Modal
+export default ExpensesViewModal

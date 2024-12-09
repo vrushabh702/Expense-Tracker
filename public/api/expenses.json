@@ -3,18 +3,90 @@
     "expenseId": "expenseId1",
     "userId": "userId1",
     "category": "Food",
-    "amount": 25.5,
-    "date": "2024-12-05",
-    "description": "Lunch at a restaurant",
+    "amount": 35.0,
+    "date": "2024-12-01",
+    "description": "Dinner at a restaurant",
     "payment_method": "Credit Card"
   },
   {
     "expenseId": "expenseId2",
-    "userId": "userId1",
+    "userId": "userId2",
     "category": "Transport",
-    "amount": 15.0,
-    "date": "2024-12-04",
-    "description": "Bus ticket",
+    "amount": 20.0,
+    "date": "2024-12-02",
+    "description": "Taxi fare",
     "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId3",
+    "userId": "userId3",
+    "category": "Shopping",
+    "amount": 50.0,
+    "date": "2024-12-03",
+    "description": "Clothing purchase",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId4",
+    "userId": "userId4",
+    "category": "Bills",
+    "amount": 75.0,
+    "date": "2024-12-04",
+    "description": "Electricity bill",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId5",
+    "userId": "userId5",
+    "category": "Healthcare",
+    "amount": 40.0,
+    "date": "2024-12-05",
+    "description": "Pharmacy purchase",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId6",
+    "userId": "userId6",
+    "category": "Education",
+    "amount": 60.0,
+    "date": "2024-12-06",
+    "description": "Online course fee",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId7",
+    "userId": "userId7",
+    "category": "Miscellaneous",
+    "amount": 25.0,
+    "date": "2024-12-07",
+    "description": "Stationery purchase",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId8",
+    "userId": "userId8",
+    "category": "Travel",
+    "amount": 150.0,
+    "date": "2024-12-08",
+    "description": "Flight ticket",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId9",
+    "userId": "userId9",
+    "category": "Savings",
+    "amount": 100.0,
+    "date": "2024-12-09",
+    "description": "Savings deposit",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId10",
+    "userId": "userId10",
+    "category": "Entertainment",
+    "amount": 30.0,
+    "date": "2024-12-10",
+    "description": "Movie ticket",
+    "payment_method": "Credit Card"
   }
 ]

@@ -16,5 +16,77 @@
     "country": "France",
     "currency": "EUR",
     "language": "fr"
+  },
+  {
+    "userId": "userId3",
+    "name": "Akira Tanaka",
+    "email": "akira.tanaka@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Japan",
+    "currency": "JPY",
+    "language": "ja"
+  },
+  {
+    "userId": "userId4",
+    "name": "Carlos García",
+    "email": "carlos.garcia@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Spain",
+    "currency": "EUR",
+    "language": "es"
+  },
+  {
+    "userId": "userId5",
+    "name": "Aarav Patel",
+    "email": "aarav.patel@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "India",
+    "currency": "INR",
+    "language": "hi"
+  },
+  {
+    "userId": "userId6",
+    "name": "Liam O'Connor",
+    "email": "liam.oconnor@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Ireland",
+    "currency": "EUR",
+    "language": "en"
+  },
+  {
+    "userId": "userId7",
+    "name": "Chen Wei",
+    "email": "chen.wei@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "China",
+    "currency": "CNY",
+    "language": "zh"
+  },
+  {
+    "userId": "userId8",
+    "name": "Amara Okafor",
+    "email": "amara.okafor@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Nigeria",
+    "currency": "NGN",
+    "language": "en"
+  },
+  {
+    "userId": "userId9",
+    "name": "Lucas Müller",
+    "email": "lucas.mueller@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Germany",
+    "currency": "EUR",
+    "language": "de"
+  },
+  {
+    "userId": "userId10",
+    "name": "Elena Rossi",
+    "email": "elena.rossi@example.com",
+    "profile_picture": "url-to-profile-picture",
+    "country": "Italy",
+    "currency": "EUR",
+    "language": "it"
   }
 ]

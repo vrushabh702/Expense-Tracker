@@ -4,14 +4,16 @@
     "userId": "userId1",
     "month": "2024-12",
     "categories": {
-      "Food": 200,
-      "Transport": 100,
-      "Entertainment": 50,
-      "Shopping": 150,
-      "Bills": 120,
-      "Healthcare": 100,
-      "Education": 200,
-      "Miscellaneous": 80
+      "Food": 300,
+      "Transport": 150,
+      "Entertainment": 100,
+      "Shopping": 200,
+      "Bills": 250,
+      "Healthcare": 200,
+      "Education": 300,
+      "Miscellaneous": 100,
+      "Travel": 400,
+      "Savings": 500
     }
   },
   {
@@ -19,14 +21,152 @@
     "userId": "userId2",
     "month": "2024-12",
     "categories": {
-      "Food": 150,
-      "Transport": 80,
+      "Food": 250,
+      "Transport": 120,
+      "Entertainment": 80,
+      "Shopping": 180,
+      "Bills": 200,
+      "Healthcare": 150,
+      "Education": 250,
+      "Miscellaneous": 90,
+      "Travel": 300,
+      "Savings": 400
+    }
+  },
+  {
+    "budgetId": "budgetId3",
+    "userId": "userId3",
+    "month": "2024-12",
+    "categories": {
+      "Food": 200,
+      "Transport": 100,
       "Entertainment": 60,
-      "Shopping": 130,
-      "Bills": 100,
-      "Healthcare": 90,
-      "Education": 180,
-      "Miscellaneous": 75
+      "Shopping": 160,
+      "Bills": 180,
+      "Healthcare": 140,
+      "Education": 220,
+      "Miscellaneous": 70,
+      "Travel": 250,
+      "Savings": 350
+    }
+  },
+  {
+    "budgetId": "budgetId4",
+    "userId": "userId4",
+    "month": "2024-12",
+    "categories": {
+      "Food": 280,
+      "Transport": 140,
+      "Entertainment": 90,
+      "Shopping": 190,
+      "Bills": 230,
+      "Healthcare": 180,
+      "Education": 270,
+      "Miscellaneous": 110,
+      "Travel": 380,
+      "Savings": 450
+    }
+  },
+  {
+    "budgetId": "budgetId5",
+    "userId": "userId5",
+    "month": "2024-12",
+    "categories": {
+      "Food": 320,
+      "Transport": 160,
+      "Entertainment": 110,
+      "Shopping": 220,
+      "Bills": 280,
+      "Healthcare": 210,
+      "Education": 310,
+      "Miscellaneous": 130,
+      "Travel": 420,
+      "Savings": 520
+    }
+  },
+  {
+    "budgetId": "budgetId6",
+    "userId": "userId6",
+    "month": "2024-12",
+    "categories": {
+      "Food": 230,
+      "Transport": 130,
+      "Entertainment": 70,
+      "Shopping": 170,
+      "Bills": 210,
+      "Healthcare": 170,
+      "Education": 240,
+      "Miscellaneous": 90,
+      "Travel": 330,
+      "Savings": 390
+    }
+  },
+  {
+    "budgetId": "budgetId7",
+    "userId": "userId7",
+    "month": "2024-12",
+    "categories": {
+      "Food": 290,
+      "Transport": 150,
+      "Entertainment": 100,
+      "Shopping": 210,
+      "Bills": 260,
+      "Healthcare": 200,
+      "Education": 290,
+      "Miscellaneous": 120,
+      "Travel": 370,
+      "Savings": 460
+    }
+  },
+  {
+    "budgetId": "budgetId8",
+    "userId": "userId8",
+    "month": "2024-12",
+    "categories": {
+      "Food": 270,
+      "Transport": 140,
+      "Entertainment": 90,
+      "Shopping": 190,
+      "Bills": 240,
+      "Healthcare": 190,
+      "Education": 270,
+      "Miscellaneous": 100,
+      "Travel": 350,
+      "Savings": 430
+    }
+  },
+  {
+    "budgetId": "budgetId9",
+    "userId": "userId9",
+    "month": "2024-12",
+    "categories": {
+      "Food": 300,
+      "Transport": 160,
+      "Entertainment": 110,
+      "Shopping": 220,
+      "Bills": 280,
+      "Healthcare": 210,
+      "Education": 310,
+      "Miscellaneous": 130,
+      "Travel": 420,
+      "Savings": 520
+    }
+  },
+  {
+    "budgetId": "budgetId10",
+    "userId": "userId10",
+    "month": "2024-12",
+    "categories": {
+      "Food": 250,
+      "Transport": 120,
+      "Entertainment": 80,
+      "Shopping": 180,
+      "Bills": 200,
+      "Healthcare": 150,
+      "Education": 250,
+      "Miscellaneous": 90,
+      "Travel": 300,
+      "Savings": 400
     }
   }
 ]

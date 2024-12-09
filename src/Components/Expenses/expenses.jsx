@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import ExpensesTable from "./expensesTable"
-import Dropdown from "./expensesDropDown"
-import Modal from "./modelView"
+import ExpenseDropDown from "./expensesDropDown"
+import ExpensesViewModal from "./modelView"
 
-const App = () => {
+const Expense = () => {
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
   const [categories, setCategories] = useState([])
@@ -91,7 +91,7 @@ const App = () => {
         Expense Tracker
       </h2>
       <div className="flex gap-4 mb-6">
-        <Dropdown
+        <ExpenseDropDown
           options={categories}
           onChange={(e) => {
             setSelectedCategory(e.target.value)
@@ -99,7 +99,7 @@ const App = () => {
           }}
           placeholder="Select Category"
         />
-        <Dropdown
+        <ExpenseDropDown
           options={paymentMethods}
           onChange={(e) => {
             setSelectedPaymentMethod(e.target.value)
@@ -109,7 +109,7 @@ const App = () => {
         />
       </div>
       <ExpensesTable expenses={filteredData} onView={handleViewExpense} />
-      <Modal
+      <ExpensesViewModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         expense={currentExpense}
@@ -118,4 +118,4 @@ const App = () => {
   )
 }
 
-export default App
+export default Expense
