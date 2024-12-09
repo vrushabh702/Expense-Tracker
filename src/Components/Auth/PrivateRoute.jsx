@@ -1,11 +1,12 @@
 import React from "react"
-import { Route, Navigate, Outlet } from "react-router-dom"
-import { auth } from "../firebase"
+import { Navigate } from "react-router-dom"
+import { useAuth } from "./AuthContext" // Use the context to get authentication state
 
 const PrivateRoute = ({ element, ...rest }) => {
-  const isAuthenticated = auth.currentUser
+  const { user } = useAuth() // Check if user is authenticated
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+  // If user is not authenticated, redirect to login page
+  return user ? element : <Navigate to="/login" />
 }
 
 export default PrivateRoute

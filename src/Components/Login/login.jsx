@@ -18,7 +18,7 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password)
       navigate("/")
     } catch (err) {
-      setError("Error Logging in : " + +err.message)
+      setError("Error Logging in : " + err.message)
     }
   }
 
