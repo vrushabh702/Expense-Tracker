@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import ExpenseDropDown from "../Expenses/expensesDropDown"
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts"
+import Loading from "../Loading/loading"
+import Error from "../Errors/Error"
 
 const PieChartPage = () => {
   const [pieData, setPieData] = useState([])
@@ -8,56 +10,64 @@ const PieChartPage = () => {
   const [paymentMethods, setPaymentMethods] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const users = await fetch("http://localhost:3000/api/user.json").then(
-        (res) => res.json()
-      )
-      const expenses = await fetch(
-        "http://localhost:3000/api/expenses.json"
-      ).then((res) => res.json())
+      try {
+        const users = await fetch("http://localhost:3000/api/user.json").then(
+          (res) => res.json()
+        )
+        const expenses = await fetch(
+          "http://localhost:3000/api/expenses.json"
+        ).then((res) => res.json())
 
-      const budgets = await fetch("http://localhost:3000/api/budget.json").then(
-        (res) => res.json()
-      )
-      const categories = await fetch(
-        "http://localhost:3000/api/categories.json"
-      ).then((res) => res.json())
-      const paymentMethods = await fetch(
-        "http://localhost:3000/api/paymentMethod.json"
-      ).then((res) => res.json())
+        const budgets = await fetch(
+          "http://localhost:3000/api/budget.json"
+        ).then((res) => res.json())
+        const categories = await fetch(
+          "http://localhost:3000/api/categories.json"
+        ).then((res) => res.json())
+        const paymentMethods = await fetch(
+          "http://localhost:3000/api/paymentMethod.json"
+        ).then((res) => res.json())
 
-      setCategories(categories)
-      setPaymentMethods(paymentMethods)
+        setCategories(categories)
+        setPaymentMethods(paymentMethods)
 
-      const normalizedData = users.map((user) => ({
-        ...user,
-        expenses: expenses
-          .filter((expense) => expense.userId === user.userId)
-          .map((expense) => ({
-            ...expense,
-            userName: user.name,
-            budget: budgets.find((budget) => budget.userId === user.userId)
-              ?.categories[expense.category],
-          })),
-      }))
-
-      const mergedExpenses = normalizedData.flatMap((user) =>
-        user.expenses.map((expense) => ({
-          userName: user.name,
-          userCountry: user.country,
-          userEmail: user.email,
-          category: expense.category,
-          amount: expense.amount,
-          date: expense.date,
-          description: expense.description,
-          paymentMethod: expense.payment_method,
-          budget: expense.budget || "N/A",
-          currency: expense.currency || "INR",
+        const normalizedData = users.map((user) => ({
+          ...user,
+          expenses: expenses
+            .filter((expense) => expense.userId === user.userId)
+            .map((expense) => ({
+              ...expense,
+              userName: user.name,
+              budget: budgets.find((budget) => budget.userId === user.userId)
+                ?.categories[expense.category],
+            })),
         }))
-      )
-      setPieData(mergedExpenses)
+
+        const mergedExpenses = normalizedData.flatMap((user) =>
+          user.expenses.map((expense) => ({
+            userName: user.name,
+            userCountry: user.country,
+            userEmail: user.email,
+            category: expense.category,
+            amount: expense.amount,
+            date: expense.date,
+            description: expense.description,
+            paymentMethod: expense.payment_method,
+            budget: expense.budget || "N/A",
+            currency: expense.currency || "INR",
+          }))
+        )
+        setPieData(mergedExpenses)
+        setIsLoading(false)
+      } catch (err) {
+        setError(err.message)
+        setIsLoading(false)
+      }
     }
     fetchData()
   }, [])
@@ -88,6 +98,14 @@ const PieChartPage = () => {
     "#A28FEF",
     "#FC4F30",
   ]
+
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <Error error={error} />
+  }
 
   return (
     <div className="p-8">
