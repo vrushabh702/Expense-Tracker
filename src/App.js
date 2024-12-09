@@ -7,6 +7,7 @@ import Home from "./Components/Home/home"
 import Expenses from "./Components/Expenses/expenses"
 import Chart from "./Components/Chart/chart"
 import ExpenseNavbar from "./Components/navbar/expenseNavbar"
+import PieChartPage from "./Components/PieChart/pieChart"
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/expenses" element={<Expenses />} />
-        <Route path="/chart" element={<Chart />} />
+        {/* <Route path="/chart" element={<Chart />} /> */}
+        <Route path="/chart/line" element={<Chart />} />
+        <Route path="/chart/pie" element={<PieChartPage />} />
       </Routes>
     </div>
   )

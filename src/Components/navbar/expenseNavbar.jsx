@@ -1,6 +1,7 @@
 import React from "react"
-
 import { Link } from "react-router-dom"
+import { Dropdown } from "react-bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css" // Import Bootstrap CSS
 
 const ExpenseNavbar = () => {
   return (
@@ -17,9 +18,23 @@ const ExpenseNavbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/chart" className="text-white hover:text-gray-400">
-            Chart
-          </Link>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="bg-gray-800 border-none text-white hover:text-gray-400"
+              id="dropdown-basic"
+            >
+              Chart
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to="/chart/line">
+                Line Chart
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/chart/pie">
+                Pie Chart
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </li>
       </ul>
     </div>
