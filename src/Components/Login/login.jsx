@@ -1,32 +1,39 @@
-import React, { useState } from "react"
-import { Button, Form } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
-import { signInWithEmailAndPassword } from "firebase/auth"
-import "tailwindcss/tailwind.css"
-import { auth } from "../firebase"
+// Login.js
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import Notification from "../Toastify/notification";  // Notification component
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
-  const [loading, isLoading] = useState(false)
+  const [email, setEmail] = useState("");  // Email state
+  const [password, setPassword] = useState("");  // Password state
+  const [notification, setNotification] = useState(null);  // Notification state
+  const navigate = useNavigate();
 
+  // Handle login logic
   const handleLogin = async (e) => {
-    e.preventDefault()
+    e.preventDefault();  // Prevent form from refreshing
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      navigate("/")
+      await signInWithEmailAndPassword(auth, email, password);  // Firebase login
+      // On success, display notification and redirect to home
+      setNotification({ message: "Login successful!", type: "success" });
+      setTimeout(() => {
+        setNotification(null);  // Hide notification after 3 seconds
+        navigate("/");  // Navigate to home page
+      }, 3000);
     } catch (err) {
-      setError("Error Logging in : " + err.message)
+      // On error, show error notification
+      setNotification({ message: `Error logging in: ${err.message}`, type: "error" });
+      setTimeout(() => setNotification(null), 3000);  // Hide error notification after 3 seconds
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Login</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold mb-4 text-center">Login</h2>
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="formEmail" className="mb-4">
             <Form.Label>Email</Form.Label>
@@ -36,24 +43,34 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="border-gray-300 focus:ring-2 focus:ring-blue-500"
             />
           </Form.Group>
           <Form.Group controlId="formPassword" className="mb-4">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="border-gray-300 focus:ring-2 focus:ring-blue-500"
             />
           </Form.Group>
-          <Button type="submit" variant="primary" className="w-full">
+          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
             Log In
           </Button>
         </Form>
+
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}  // Close notification
+          />
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
