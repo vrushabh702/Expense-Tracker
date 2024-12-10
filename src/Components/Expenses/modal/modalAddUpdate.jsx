@@ -8,6 +8,7 @@ const AddExpenseModal = ({
   formData,
   setFormData,
   handleSave,
+  isUpdateMode, // Flag to check if we are in update mode
 }) => {
   // State to hold dropdown data
   const [categories, setCategories] = useState([])
@@ -52,10 +53,23 @@ const AddExpenseModal = ({
     { label: "Currency", key: "currency", type: "select" },
   ]
 
+  const handleFormChange = (e, key) => {
+    setFormData({
+      ...formData,
+      [key]: e.target.value,
+    })
+  }
+
+  const handleSubmit = () => {
+    handleSave(formData, isUpdateMode) // Pass formData to parent along with update flag
+  }
+
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add New Expense</Modal.Title>
+        <Modal.Title>
+          {isUpdateMode ? "Update Expense" : "Add New Expense"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -67,12 +81,7 @@ const AddExpenseModal = ({
                   {field.type === "select" ? (
                     <Form.Select
                       value={formData[field.key]}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          [field.key]: e.target.value,
-                        })
-                      }
+                      onChange={(e) => handleFormChange(e, field.key)}
                     >
                       <option value="">Select {field.label}</option>
                       {field.key === "category"
@@ -99,12 +108,7 @@ const AddExpenseModal = ({
                     <Form.Control
                       type={field.type}
                       value={formData[field.key]}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          [field.key]: e.target.value,
-                        })
-                      }
+                      onChange={(e) => handleFormChange(e, field.key)}
                     />
                   )}
                 </Form.Group>
@@ -117,8 +121,8 @@ const AddExpenseModal = ({
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSave}>
-          Save Expense
+        <Button variant="primary" onClick={handleSubmit}>
+          {isUpdateMode ? "Update Expense" : "Save Expense"}
         </Button>
       </Modal.Footer>
     </Modal>

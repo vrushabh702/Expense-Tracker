@@ -1,6 +1,6 @@
 import React from "react"
 
-const ExpensesTable = ({ expenses, onView }) => (
+const ExpensesTable = ({ expenses, onView, onEdit, onDelete }) => (
   <div className="overflow-x-auto">
     <table className="min-w-full bg-white shadow-xl rounded-lg border border-gray-200">
       <thead>
@@ -32,10 +32,16 @@ const ExpensesTable = ({ expenses, onView }) => (
               >
                 View
               </button>
-              <button className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">
+              <button
+                onClick={() => onEdit(expense)}
+                className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+              >
                 Edit
               </button>
-              <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+              <button
+                onClick={() => onDelete(expense)}
+                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+              >
                 Delete
               </button>
             </td>

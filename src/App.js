@@ -29,10 +29,6 @@ const AppContent = () => {
   const { user } = useAuth() // Get the current user from the context
   const location = useLocation() // Get the current route
 
-  // Log user and current location for debugging purposes
-  console.log(user)
-  console.log(location.pathname) // Log the current route
-
   return (
     <div>
       {/* Only show navbar if user is logged in and not on the login/register page */}

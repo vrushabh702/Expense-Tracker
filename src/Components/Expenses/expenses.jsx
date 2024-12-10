@@ -7,6 +7,7 @@ import Error from "../Errors/Error"
 import SearchBar from "./searchBar"
 import ExpensesViewModal from "./modal/modelView"
 import AddExpenseModal from "./modal/modalAddUpdate"
+import NoDataError from "../Errors/errorNoData"
 
 const Expense = () => {
   const [data, setData] = useState([])
@@ -35,11 +36,7 @@ const Expense = () => {
     budget: "",
     currency: "INR",
   })
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
-    setData(storedData)
-    setFilteredData(storedData)
-  }, [])
+  const [isUpdateMode, setIsUpdateMode] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -158,11 +155,24 @@ const Expense = () => {
     }
   }
 
-  const handleAddExpense = () => {
-    const updatedData = [formData, ...data]
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
+    setData(storedData)
+    setFilteredData(storedData)
+  }, [])
+
+  const handleAddExpense = (expense, isUpdate) => {
+    let updatedData = []
+    if (isUpdate) {
+      updatedData = data.map((item) =>
+        item.userEmail === expense.userEmail ? expense : item
+      )
+    } else {
+      updatedData = [expense, ...data]
+    }
+
     setData(updatedData)
     setFilteredData(updatedData)
-
     localStorage.setItem("expenses", JSON.stringify(updatedData))
 
     setFormData({
@@ -180,6 +190,18 @@ const Expense = () => {
     setShowModal(false)
   }
 
+  const handleEditExpense = (expense) => {
+    setFormData(expense) // Fill form with selected expense
+    setIsUpdateMode(true) // Set update mode
+    setModalOpen(true) // Open the modal
+  }
+  const handleDeleteExpense = (expense) => {
+    const updatedData = data.filter((item) => item !== expense)
+    setData(updatedData)
+    setFilteredData(updatedData)
+    localStorage.setItem("expenses", JSON.stringify(updatedData))
+  }
+
   if (isLoading) {
     return <Loading />
   }
@@ -187,6 +209,8 @@ const Expense = () => {
   if (error) {
     return <Error error={error} />
   }
+
+  if (data.length === 0) return <NoDataError />
 
   return (
     <div className="p-8">
@@ -226,8 +250,12 @@ const Expense = () => {
         </div>
       </div>
 
-      {/* Table and other content */}
-      <ExpensesTable expenses={currentItems} onView={handleViewExpense} />
+      <ExpensesTable
+        expenses={currentItems}
+        onView={handleViewExpense}
+        onEdit={handleEditExpense} // Pass the edit function
+        onDelete={handleDeleteExpense} // Pass the delete function
+      />
 
       {/* Pagination Controls */}
       <div className="flex justify-center gap-4 mt-6">
@@ -263,6 +291,7 @@ const Expense = () => {
         formData={formData}
         setFormData={setFormData}
         handleSave={handleAddExpense}
+        isUpdateMode={isUpdateMode}
       />
     </div>
   )
