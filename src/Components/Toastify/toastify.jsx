@@ -1,6 +1,6 @@
-import React from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import React from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export const notifySuccess = (message) => {
   toast.success(`✅ ${message}`, {
@@ -8,8 +8,8 @@ export const notifySuccess = (message) => {
     className: "bg-green-600 text-white rounded-xl p-4 shadow-lg",
     bodyClassName: "text-sm font-medium",
     progressClassName: "bg-green-400",
-  });
-};
+  })
+}
 
 export const notifyError = (message) => {
   toast.error(`❌ ${message}`, {
@@ -17,8 +17,8 @@ export const notifyError = (message) => {
     className: "bg-red-600 text-white rounded-xl p-4 shadow-lg",
     bodyClassName: "text-sm font-medium",
     progressClassName: "bg-red-400",
-  });
-};
+  })
+}
 
 export const notifyInfo = (message) => {
   toast.info(`⏳ ${message}`, {
@@ -26,11 +26,11 @@ export const notifyInfo = (message) => {
     className: "bg-blue-600 text-white rounded-xl p-4 shadow-lg",
     bodyClassName: "text-sm font-medium",
     progressClassName: "bg-blue-400",
-  });
-};
+  })
+}
 
 const ToastifyComponent = () => {
-  return <ToastContainer autoClose={5000} hideProgressBar={false} />;
-};
+  return <ToastContainer autoClose={2000} hideProgressBar={false} />
+}
 
-export default ToastifyComponent;
+export default ToastifyComponent

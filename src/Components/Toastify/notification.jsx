@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"
 
 const Notification = ({ message, type, onClose, duration = 3000 }) => {
   const bgColor =
@@ -6,22 +6,22 @@ const Notification = ({ message, type, onClose, duration = 3000 }) => {
       ? "bg-green-600"
       : type === "error"
       ? "bg-red-600"
-      : "bg-blue-600";
+      : "bg-blue-600"
 
   const progressColor =
     type === "success"
       ? "bg-green-400"
       : type === "error"
       ? "bg-red-400"
-      : "bg-blue-400";
+      : "bg-blue-400"
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      onClose();
-    }, duration);
+      onClose()
+    }, duration)
 
-    return () => clearTimeout(timer);
-  }, [onClose, duration]);
+    return () => clearTimeout(timer)
+  }, [onClose, duration])
 
   return (
     <div
@@ -48,7 +48,7 @@ const Notification = ({ message, type, onClose, duration = 3000 }) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Notification

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react"
 import ExpensesTable from "./expensesTable"
 import ExpenseDropDown from "./expensesDropDown"
-import ExpensesViewModal from "./modelView"
 import { Button } from "react-bootstrap" // React Bootstrap Button
 import Loading from "../Loading/loading"
 import Error from "../Errors/Error"
+import SearchBar from "./searchBar"
+import ExpensesViewModal from "./modal/modelView"
+import AddExpenseModal from "./modal/modalAddUpdate"
 
 const Expense = () => {
   const [data, setData] = useState([])
@@ -19,6 +21,25 @@ const Expense = () => {
   const [itemsPerPage] = useState(5)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showModal, setShowModal] = useState(false)
+  const [formData, setFormData] = useState({
+    userName: "",
+    userCountry: "",
+    userEmail: "",
+    category: "",
+    amount: "",
+    paymentMethod: "",
+    date: "",
+    description: "",
+    budget: "",
+    currency: "INR",
+  })
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
+    setData(storedData)
+    setFilteredData(storedData)
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,7 +107,10 @@ const Expense = () => {
     const filtered = data.filter((expense) => {
       return (
         (category ? expense.category === category : true) &&
-        (paymentMethod ? expense.paymentMethod === paymentMethod : true)
+        (paymentMethod ? expense.paymentMethod === paymentMethod : true) &&
+        (searchQuery
+          ? expense.userName.toLowerCase().includes(searchQuery.toLowerCase())
+          : true)
       )
     })
     setFilteredData(filtered)
@@ -111,6 +135,51 @@ const Expense = () => {
     setModalOpen(true) // Open the modal
   }
 
+  // Handle search query change
+  const handleSearchChange = (query) => {
+    setSearchQuery(query)
+
+    // Normalize query and perform a case-insensitive search
+    const lowerCaseQuery = query.toLowerCase()
+
+    const filtered = data.filter((expense) =>
+      expense.userName.toLowerCase().includes(lowerCaseQuery)
+    )
+
+    // Update the filtered data
+    setFilteredData(filtered)
+
+    // Reset pagination to first page
+    setCurrentPage(1)
+
+    // If the search query is empty, reset to original data
+    if (lowerCaseQuery.trim() === "") {
+      setFilteredData(data)
+    }
+  }
+
+  const handleAddExpense = () => {
+    const updatedData = [formData, ...data]
+    setData(updatedData)
+    setFilteredData(updatedData)
+
+    localStorage.setItem("expenses", JSON.stringify(updatedData))
+
+    setFormData({
+      userName: "",
+      userCountry: "",
+      userEmail: "",
+      category: "",
+      amount: "",
+      paymentMethod: "",
+      date: "",
+      description: "",
+      budget: "",
+      currency: "INR",
+    })
+    setShowModal(false)
+  }
+
   if (isLoading) {
     return <Loading />
   }
@@ -121,27 +190,43 @@ const Expense = () => {
 
   return (
     <div className="p-8">
-      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+      <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
         Expense Tracker
       </h2>
-      <div className="flex gap-4 mb-6">
-        <ExpenseDropDown
-          options={categories}
-          onChange={(e) => {
-            setSelectedCategory(e.target.value)
-            handleFilterChange(e.target.value, selectedPaymentMethod)
-          }}
-          placeholder="Select Category"
-        />
-        <ExpenseDropDown
-          options={paymentMethods}
-          onChange={(e) => {
-            setSelectedPaymentMethod(e.target.value)
-            handleFilterChange(selectedCategory, e.target.value)
-          }}
-          placeholder="Select Payment Method"
-        />
+
+      {/* Search and Filters Section */}
+      <div className="flex justify-between items-center mb-6">
+        {/* SearchBar aligned to the left */}
+        <Button variant="primary" onClick={() => setShowModal(true)}>
+          Add Expense
+        </Button>
+
+        <div className="w-1/4">
+          <SearchBar onSearch={handleSearchChange} />
+        </div>
+
+        {/* Dropdowns aligned to the right */}
+        <div className="flex gap-4">
+          <ExpenseDropDown
+            options={categories}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value)
+              handleFilterChange(e.target.value, selectedPaymentMethod)
+            }}
+            placeholder="Select Category"
+          />
+          <ExpenseDropDown
+            options={paymentMethods}
+            onChange={(e) => {
+              setSelectedPaymentMethod(e.target.value)
+              handleFilterChange(selectedCategory, e.target.value)
+            }}
+            placeholder="Select Payment Method"
+          />
+        </div>
       </div>
+
+      {/* Table and other content */}
       <ExpensesTable expenses={currentItems} onView={handleViewExpense} />
 
       {/* Pagination Controls */}
@@ -153,7 +238,7 @@ const Expense = () => {
         >
           Previous
         </Button>
-        <span className="flex items-center text-gray-800">
+        <span className="flex items-center text-gray-800 text-sm">
           Page {currentPage} of {totalPages}
         </span>
         <Button
@@ -170,6 +255,14 @@ const Expense = () => {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)} // Close modal
         expense={currentExpense} // Pass current expense to the modal
+      />
+
+      <AddExpenseModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        formData={formData}
+        setFormData={setFormData}
+        handleSave={handleAddExpense}
       />
     </div>
   )

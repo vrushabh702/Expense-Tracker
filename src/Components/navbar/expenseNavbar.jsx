@@ -47,7 +47,7 @@ const ExpenseNavbar = () => {
               <Dropdown.Item as={Link} to="/chart/line">
                 Line
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/chart/line">
+              <Dropdown.Item as={Link} to="/chart/pie">
                 pie
               </Dropdown.Item>
             </Dropdown.Menu>
