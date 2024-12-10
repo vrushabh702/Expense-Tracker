@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "url": "https://plus.unsplash.com/premium_photo-1679784204551-013181bb687f?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt": "Premium photo of a serene landscape"
+  },
+  {
+    "id": 2,
+    "url": "https://images.unsplash.com/photo-1723095469034-c3cf31e32730?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt": "Breathtaking mountain view"
+  },
+  {
+    "id": 3,
+    "url": "https://images.unsplash.com/photo-1724781189475-a332f44de593?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "alt": "Sunset over a calm sea"
+  }
+]

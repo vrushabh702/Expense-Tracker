@@ -1,36 +1,35 @@
-// AuthContext.js
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";  // Firebase config
+import React, { createContext, useContext, useState, useEffect } from "react"
+import { auth } from "../firebase" // Firebase config
+import Cookies from "js-cookie" // Import js-cookie
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");  // Retrieve user from sessionStorage
+    // Retrieve user from cookies
+    const storedUser = Cookies.get("user") // Get user from cookies
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      setUser(JSON.parse(storedUser)) // Set user if available
     }
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser(user);
-        sessionStorage.setItem("user", JSON.stringify(user));  // Store user info in sessionStorage
+        setUser(user)
+        Cookies.set("user", JSON.stringify(user), { expires: 365 }) // Store user in cookie for 1 year
       } else {
-        setUser(null);
-        sessionStorage.removeItem("user");  // Remove user info if logged out
+        setUser(null)
+        Cookies.remove("user") // Remove user cookie when logged out
       }
-    });
+    })
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ user }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+  )
+}
