@@ -1,12 +1,13 @@
-import React from "react"
-import { Navigate } from "react-router-dom"
-import { useAuth } from "./AuthContext" // Use the context to get authentication state
+// PrivateRoute.js
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";  // Using the auth context to get the current user
 
 const PrivateRoute = ({ element, ...rest }) => {
-  const { user } = useAuth() // Check if user is authenticated
+  const { user } = useAuth();  // Check if user is authenticated
 
-  // If user is not authenticated, redirect to login page
-  return user ? element : <Navigate to="/login" />
-}
+  // If user is authenticated, render the element, otherwise redirect to login
+  return user ? element : <Navigate to="/login" />;
+};
 
-export default PrivateRoute
+export default PrivateRoute;
