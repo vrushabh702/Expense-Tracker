@@ -30,7 +30,7 @@ const AppContent = () => {
   const location = useLocation() // Get the current route
 
   return (
-    <div>
+    <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
       {/* Only show navbar if user is logged in and not on the login/register page */}
       {user &&
         location.pathname !== "/login" &&

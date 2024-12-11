@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../firebase"
 import { Dropdown, Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap"
+import DarkMode from "../DarkMode/darkMode"
 
 const ExpenseNavbar = () => {
   const navigate = useNavigate()
@@ -78,6 +79,7 @@ const ExpenseNavbar = () => {
           </button>
         </div>
       </Navbar.Collapse>
+      <DarkMode />
     </Navbar>
   )
 }
