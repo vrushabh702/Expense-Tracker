@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import ExpensesTable from "./expensesTable"
 import ExpenseDropDown from "./expensesDropDown"
 import { Button } from "react-bootstrap"
@@ -8,13 +8,18 @@ import SearchBar from "./searchBar"
 import ExpensesViewModal from "./modal/modelView"
 import AddExpenseModal from "./modal/modalAddUpdate"
 import NoDataError from "../Errors/errorNoData"
-import useFetchData from "./hooks/useFetchData"
+
+// Import hooks and functions
+// import useFirestore from "./hooks/useFirestore" // Correctly import useFirestore hook
 import useFilter from "./hooks/useFilter"
 import usePagination from "./hooks/usePagination"
 import useExportCSV from "./hooks/useExportData"
-// import useExportCSV from "./hooks/useExportCSV" // Import the custom hook
+import useSearch from "./hooks/useSearch"
+import useFetchData from "./hooks/useFetchData" // Correctly import useFetchData hook
+import useFirestore from "./hooks/useFireStore"
 
 const Expense = () => {
+  // Use the hooks
   const {
     data,
     filteredData,
@@ -22,17 +27,15 @@ const Expense = () => {
     paymentMethods,
     isLoading,
     error,
-    handleSearchChange,
     setFilteredData,
   } = useFetchData()
-
   const { currentItems, totalPages, currentPage, handlePageChange } =
     usePagination(filteredData)
-
+  const { searchQuery, setSearchQuery } = useSearch(filteredData) // Use filteredData instead of data directly
   const { handleFilterChange, selectedCategory, selectedPaymentMethod } =
-    useFilter(setFilteredData, data)
-
-  const { exportToCSV } = useExportCSV(data) // Use the custom hook to handle CSV export
+    useFilter(setFilteredData, data, searchQuery)
+  const { exportToCSV } = useExportCSV(filteredData) // Export filteredData
+  const { addExpense, updateExpense, deleteExpense } = useFirestore() // Ensure these are destructured properly
 
   const [modalOpen, setModalOpen] = useState(false)
   const [currentExpense, setCurrentExpense] = useState(null)
@@ -52,19 +55,13 @@ const Expense = () => {
   const [isUpdateMode, setIsUpdateMode] = useState(false)
 
   const handleAddExpense = (expense, isUpdate) => {
-    let updatedData = []
     if (isUpdate) {
-      updatedData = data.map((item) =>
-        item.userEmail === expense.userEmail ? expense : item
-      )
+      updateExpense(expense.id, expense) // Update expense in Firestore
     } else {
-      updatedData = [expense, ...data]
+      addExpense(expense) // Add new expense to Firestore
     }
 
-    // setData(updatedData)
-    setFilteredData(updatedData)
-    localStorage.setItem("expenses", JSON.stringify(updatedData))
-
+    // Reset form data
     setFormData({
       userName: "",
       userCountry: "",
@@ -83,20 +80,16 @@ const Expense = () => {
   const handleEditExpense = (expense) => {
     setFormData(expense)
     setIsUpdateMode(true)
-    // setModalOpen(true) // it was mistake for view
     setShowModal(true)
   }
 
   const handleDeleteExpense = (expense) => {
-    const updatedData = data.filter((item) => item !== expense)
-    // setData(updatedData)
-    setFilteredData(updatedData)
-    localStorage.setItem("expenses", JSON.stringify(updatedData))
+    deleteExpense(expense.id) // Delete expense from Firestore
   }
 
   const handleViewExpense = (expense) => {
-    setCurrentExpense(expense) // Set the current expense
-    setModalOpen(true) // Open the modal
+    setCurrentExpense(expense)
+    setModalOpen(true)
   }
 
   if (isLoading) return <Loading />
@@ -114,7 +107,7 @@ const Expense = () => {
           Add Expense
         </Button>
         <div className="w-1/4">
-          <SearchBar onSearch={handleSearchChange} />
+          <SearchBar onSearch={setSearchQuery} />
         </div>
         <div className="flex gap-4">
           <ExpenseDropDown

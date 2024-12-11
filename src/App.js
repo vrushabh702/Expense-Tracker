@@ -28,6 +28,7 @@ function App() {
 const AppContent = () => {
   const { user } = useAuth() // Get the current user from the context
   const location = useLocation() // Get the current route
+  console.log(process.env.REACT_APP_FIREBASE_MEASUREMENT_ID)
 
   return (
     <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
