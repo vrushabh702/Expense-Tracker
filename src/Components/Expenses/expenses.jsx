@@ -34,7 +34,7 @@ const Expense = () => {
     date: "",
     description: "",
     budget: "",
-    currency: "INR",
+    currency: "",
   })
   const [isUpdateMode, setIsUpdateMode] = useState(false)
 
@@ -85,7 +85,7 @@ const Expense = () => {
             description: expense.description,
             paymentMethod: expense.payment_method,
             budget: expense.budget || "N/A",
-            currency: expense.currency || "INR",
+            currency: expense.currency || "",
           }))
         )
 
@@ -159,6 +159,12 @@ const Expense = () => {
     const storedData = JSON.parse(localStorage.getItem("expenses")) || []
     setData(storedData)
     setFilteredData(storedData)
+    if (storedData.length > 0) {
+      setData(storedData)
+      setFilteredData(storedData)
+      setIsLoading(false) // Stop loading as we already have data
+      return
+    }
   }, [])
 
   const handleAddExpense = (expense, isUpdate) => {
@@ -185,7 +191,7 @@ const Expense = () => {
       date: "",
       description: "",
       budget: "",
-      currency: "INR",
+      currency: "",
     })
     setShowModal(false)
   }
@@ -193,7 +199,8 @@ const Expense = () => {
   const handleEditExpense = (expense) => {
     setFormData(expense) // Fill form with selected expense
     setIsUpdateMode(true) // Set update mode
-    setModalOpen(true) // Open the modal
+    // setModalOpen(true) // Open the modal
+    setShowModal(true)
   }
   const handleDeleteExpense = (expense) => {
     const updatedData = data.filter((item) => item !== expense)

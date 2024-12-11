@@ -3,13 +3,21 @@
 // import { Navbar, Nav, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap"
 // import { auth } from "../firebase"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../firebase"
 import { Dropdown, Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 const ExpenseNavbar = () => {
   const navigate = useNavigate()
+  const [userName, setUserName] = useState("")
+
+  useEffect(() => {
+    const user = auth.currentUser
+    if (user) {
+      setUserName(user.email)
+    }
+  }, [])
 
   const handleLogout = () => {
     auth
@@ -21,7 +29,7 @@ const ExpenseNavbar = () => {
         console.error("logout error", error)
       })
   }
-  const userName = "John Doe"
+  // const userName = "John Doe"
 
   return (
     <Navbar bg="light" expand="lg" className="p-3 shadow-md">

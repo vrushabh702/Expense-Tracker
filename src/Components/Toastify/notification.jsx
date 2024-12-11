@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-const Notification = ({ message, type, onClose, duration = 3000 }) => {
+const Notification = ({ message, type, onClose, duration = 2000 }) => {
   const bgColor =
     type === "success"
       ? "bg-green-600"

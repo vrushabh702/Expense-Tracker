@@ -1,34 +1,37 @@
 // Login.js
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
-import Notification from "../Toastify/notification";  // Notification component
+import React, { useState } from "react"
+import { Button, Form } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../firebase"
+import Notification from "../Toastify/notification" // Notification component
 
 const Login = () => {
-  const [email, setEmail] = useState("");  // Email state
-  const [password, setPassword] = useState("");  // Password state
-  const [notification, setNotification] = useState(null);  // Notification state
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("") // Email state
+  const [password, setPassword] = useState("") // Password state
+  const [notification, setNotification] = useState(null) // Notification state
+  const navigate = useNavigate()
 
   // Handle login logic
   const handleLogin = async (e) => {
-    e.preventDefault();  // Prevent form from refreshing
+    e.preventDefault() // Prevent form from refreshing
     try {
-      await signInWithEmailAndPassword(auth, email, password);  // Firebase login
+      await signInWithEmailAndPassword(auth, email, password) // Firebase login
       // On success, display notification and redirect to home
-      setNotification({ message: "Login successful!", type: "success" });
+      setNotification({ message: "Login successful!", type: "success" })
       setTimeout(() => {
-        setNotification(null);  // Hide notification after 3 seconds
-        navigate("/");  // Navigate to home page
-      }, 3000);
+        setNotification(null) // Hide notification after 3 seconds
+        navigate("/") // Navigate to home page
+      }, 2000)
     } catch (err) {
       // On error, show error notification
-      setNotification({ message: `Error logging in: ${err.message}`, type: "error" });
-      setTimeout(() => setNotification(null), 3000);  // Hide error notification after 3 seconds
+      setNotification({
+        message: `Error logging in: ${err.message}`,
+        type: "error",
+      })
+      setTimeout(() => setNotification(null), 2000) // Hide error notification after 3 seconds
     }
-  };
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -56,7 +59,10 @@ const Login = () => {
               className="border-gray-300 focus:ring-2 focus:ring-blue-500"
             />
           </Form.Group>
-          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
+          <Button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg"
+          >
             Log In
           </Button>
         </Form>
@@ -65,12 +71,13 @@ const Login = () => {
           <Notification
             message={notification.message}
             type={notification.type}
-            onClose={() => setNotification(null)}  // Close notification
+            duration={notification.duration}
+            onClose={() => setNotification(null)} // Close notification
           />
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
