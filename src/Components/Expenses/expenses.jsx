@@ -1,28 +1,41 @@
 import React, { useState, useEffect } from "react"
 import ExpensesTable from "./expensesTable"
 import ExpenseDropDown from "./expensesDropDown"
-import { Button } from "react-bootstrap" // React Bootstrap Button
+import { Button } from "react-bootstrap"
 import Loading from "../Loading/loading"
 import Error from "../Errors/Error"
 import SearchBar from "./searchBar"
 import ExpensesViewModal from "./modal/modelView"
 import AddExpenseModal from "./modal/modalAddUpdate"
 import NoDataError from "../Errors/errorNoData"
+import useFetchData from "./hooks/useFetchData"
+import useFilter from "./hooks/useFilter"
+import usePagination from "./hooks/usePagination"
+import useExportCSV from "./hooks/useExportData"
+// import useExportCSV from "./hooks/useExportCSV" // Import the custom hook
 
 const Expense = () => {
-  const [data, setData] = useState([])
-  const [filteredData, setFilteredData] = useState([])
-  const [categories, setCategories] = useState([])
-  const [paymentMethods, setPaymentMethods] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState("")
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
-  const [modalOpen, setModalOpen] = useState(false) // Modal state
-  const [currentExpense, setCurrentExpense] = useState(null) // Store the expense for the modal
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage] = useState(5)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [searchQuery, setSearchQuery] = useState("")
+  const {
+    data,
+    filteredData,
+    categories,
+    paymentMethods,
+    isLoading,
+    error,
+    handleSearchChange,
+    setFilteredData,
+  } = useFetchData()
+
+  const { currentItems, totalPages, currentPage, handlePageChange } =
+    usePagination(filteredData)
+
+  const { handleFilterChange, selectedCategory, selectedPaymentMethod } =
+    useFilter(setFilteredData, data)
+
+  const { exportToCSV } = useExportCSV(data) // Use the custom hook to handle CSV export
+
+  const [modalOpen, setModalOpen] = useState(false)
+  const [currentExpense, setCurrentExpense] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [formData, setFormData] = useState({
     userName: "",
@@ -38,135 +51,6 @@ const Expense = () => {
   })
   const [isUpdateMode, setIsUpdateMode] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const users = await fetch("http://localhost:3000/api/user.json").then(
-          (res) => res.json()
-        )
-        const expenses = await fetch(
-          "http://localhost:3000/api/expenses.json"
-        ).then((res) => res.json())
-        const budgets = await fetch(
-          "http://localhost:3000/api/budget.json"
-        ).then((res) => res.json())
-        const categories = await fetch(
-          "http://localhost:3000/api/categories.json"
-        ).then((res) => res.json())
-        const paymentMethods = await fetch(
-          "http://localhost:3000/api/paymentMethod.json"
-        ).then((res) => res.json())
-
-        setCategories(categories)
-        setPaymentMethods(paymentMethods)
-
-        const normalizedData = users.map((user) => ({
-          ...user,
-          expenses: expenses
-            .filter((expense) => expense.userId === user.userId)
-            .map((expense) => ({
-              ...expense,
-              userName: user.name,
-              userCountry: user.country,
-              userEmail: user.email,
-              budget: budgets.find((budget) => budget.userId === user.userId)
-                ?.categories[expense.category],
-            })),
-        }))
-
-        const mergedExpenses = normalizedData.flatMap((user) =>
-          user.expenses.map((expense) => ({
-            userName: user.name,
-            userCountry: user.country,
-            userEmail: user.email,
-            category: expense.category,
-            amount: expense.amount,
-            date: expense.date,
-            description: expense.description,
-            paymentMethod: expense.payment_method,
-            budget: expense.budget || "N/A",
-            currency: expense.currency || "",
-          }))
-        )
-
-        setData(mergedExpenses)
-        setFilteredData(mergedExpenses)
-        setIsLoading(false)
-      } catch (err) {
-        setError(err.message)
-        setIsLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-
-  const handleFilterChange = (category, paymentMethod) => {
-    const filtered = data.filter((expense) => {
-      return (
-        (category ? expense.category === category : true) &&
-        (paymentMethod ? expense.paymentMethod === paymentMethod : true) &&
-        (searchQuery
-          ? expense.userName.toLowerCase().includes(searchQuery.toLowerCase())
-          : true)
-      )
-    })
-    setFilteredData(filtered)
-    setCurrentPage(1) // Reset to first page when filters change
-  }
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
-  }
-
-  // Get current items based on page and items per page
-  const currentItems = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage)
-
-  // Handle the modal view
-  const handleViewExpense = (expense) => {
-    setCurrentExpense(expense) // Set the current expense
-    setModalOpen(true) // Open the modal
-  }
-
-  // Handle search query change
-  const handleSearchChange = (query) => {
-    setSearchQuery(query)
-
-    // Normalize query and perform a case-insensitive search
-    const lowerCaseQuery = query.toLowerCase()
-
-    const filtered = data.filter((expense) =>
-      expense.userName.toLowerCase().includes(lowerCaseQuery)
-    )
-
-    // Update the filtered data
-    setFilteredData(filtered)
-
-    // Reset pagination to first page
-    setCurrentPage(1)
-
-    // If the search query is empty, reset to original data
-    if (lowerCaseQuery.trim() === "") {
-      setFilteredData(data)
-    }
-  }
-
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
-    setData(storedData)
-    setFilteredData(storedData)
-    if (storedData.length > 0) {
-      setData(storedData)
-      setFilteredData(storedData)
-      setIsLoading(false) // Stop loading as we already have data
-      return
-    }
-  }, [])
-
   const handleAddExpense = (expense, isUpdate) => {
     let updatedData = []
     if (isUpdate) {
@@ -177,7 +61,7 @@ const Expense = () => {
       updatedData = [expense, ...data]
     }
 
-    setData(updatedData)
+    // setData(updatedData)
     setFilteredData(updatedData)
     localStorage.setItem("expenses", JSON.stringify(updatedData))
 
@@ -197,26 +81,26 @@ const Expense = () => {
   }
 
   const handleEditExpense = (expense) => {
-    setFormData(expense) // Fill form with selected expense
-    setIsUpdateMode(true) // Set update mode
-    // setModalOpen(true) // Open the modal
+    setFormData(expense)
+    setIsUpdateMode(true)
+    // setModalOpen(true) // it was mistake for view
     setShowModal(true)
   }
+
   const handleDeleteExpense = (expense) => {
     const updatedData = data.filter((item) => item !== expense)
-    setData(updatedData)
+    // setData(updatedData)
     setFilteredData(updatedData)
     localStorage.setItem("expenses", JSON.stringify(updatedData))
   }
 
-  if (isLoading) {
-    return <Loading />
+  const handleViewExpense = (expense) => {
+    setCurrentExpense(expense) // Set the current expense
+    setModalOpen(true) // Open the modal
   }
 
-  if (error) {
-    return <Error error={error} />
-  }
-
+  if (isLoading) return <Loading />
+  if (error) return <Error error={error} />
   if (data.length === 0) return <NoDataError />
 
   return (
@@ -225,46 +109,42 @@ const Expense = () => {
         Expense Tracker
       </h2>
 
-      {/* Search and Filters Section */}
       <div className="flex justify-between items-center mb-6">
-        {/* SearchBar aligned to the left */}
         <Button variant="primary" onClick={() => setShowModal(true)}>
           Add Expense
         </Button>
-
         <div className="w-1/4">
           <SearchBar onSearch={handleSearchChange} />
         </div>
-
-        {/* Dropdowns aligned to the right */}
         <div className="flex gap-4">
           <ExpenseDropDown
             options={categories}
-            onChange={(e) => {
-              setSelectedCategory(e.target.value)
+            onChange={(e) =>
               handleFilterChange(e.target.value, selectedPaymentMethod)
-            }}
-            placeholder="Select Category"
+            }
+            placeholder="Filter by Category"
           />
           <ExpenseDropDown
             options={paymentMethods}
-            onChange={(e) => {
-              setSelectedPaymentMethod(e.target.value)
+            onChange={(e) =>
               handleFilterChange(selectedCategory, e.target.value)
-            }}
-            placeholder="Select Payment Method"
+            }
+            placeholder="Filter by Payment-method"
           />
         </div>
+        {/* Add export button */}
+        <Button variant="success" onClick={exportToCSV}>
+          Export to CSV
+        </Button>
       </div>
 
       <ExpensesTable
         expenses={currentItems}
         onView={handleViewExpense}
-        onEdit={handleEditExpense} // Pass the edit function
-        onDelete={handleDeleteExpense} // Pass the delete function
+        onEdit={handleEditExpense}
+        onDelete={handleDeleteExpense}
       />
 
-      {/* Pagination Controls */}
       <div className="flex justify-center gap-4 mt-6">
         <Button
           variant="secondary"
@@ -285,11 +165,10 @@ const Expense = () => {
         </Button>
       </div>
 
-      {/* Modal Component */}
       <ExpensesViewModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)} // Close modal
-        expense={currentExpense} // Pass current expense to the modal
+        onClose={() => setModalOpen(false)}
+        expense={currentExpense}
       />
 
       <AddExpenseModal

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Modal, Form, Button, Row, Col } from "react-bootstrap"
+import { Modal, Form, Button, Row, Col, Alert } from "react-bootstrap"
 import axios from "axios"
 
 const AddExpenseModal = ({
@@ -14,6 +14,10 @@ const AddExpenseModal = ({
   const [categories, setCategories] = useState([])
   const [paymentMethods, setPaymentMethods] = useState([])
   const [currencies, setCurrencies] = useState([])
+
+  // State to manage form validation
+  const [errors, setErrors] = useState({})
+  const [formValid, setFormValid] = useState(true)
 
   // Fetch data from the API
   useEffect(() => {
@@ -41,16 +45,21 @@ const AddExpenseModal = ({
   }, []) // Empty dependency array to only run once
 
   const fields = [
-    { label: "User Name", key: "userName", type: "text" },
-    { label: "Country", key: "userCountry", type: "text" },
-    { label: "Email", key: "userEmail", type: "email" },
-    { label: "Category", key: "category", type: "select" },
-    { label: "Amount", key: "amount", type: "number" },
-    { label: "Payment Method", key: "paymentMethod", type: "select" },
-    { label: "Date", key: "date", type: "date" },
-    { label: "Description", key: "description", type: "text" },
-    { label: "Budget", key: "budget", type: "number" },
-    { label: "Currency", key: "currency", type: "select" },
+    { label: "User Name", key: "userName", type: "text", required: true },
+    { label: "Country", key: "userCountry", type: "text", required: true },
+    { label: "Email", key: "userEmail", type: "email", required: true },
+    { label: "Category", key: "category", type: "select", required: true },
+    { label: "Amount", key: "amount", type: "number", required: true },
+    {
+      label: "Payment Method",
+      key: "paymentMethod",
+      type: "select",
+      required: true,
+    },
+    { label: "Date", key: "date", type: "date", required: true },
+    { label: "Description", key: "description", type: "text", required: false },
+    { label: "Budget", key: "budget", type: "number", required: false },
+    { label: "Currency", key: "currency", type: "select", required: true },
   ]
 
   const handleFormChange = (e, key) => {
@@ -60,8 +69,26 @@ const AddExpenseModal = ({
     })
   }
 
+  const validateForm = () => {
+    const newErrors = {}
+    let isValid = true
+
+    fields.forEach((field) => {
+      if (field.required && !formData[field.key]) {
+        newErrors[field.key] = `${field.label} is required`
+        isValid = false
+      }
+    })
+
+    setErrors(newErrors)
+    setFormValid(isValid)
+    return isValid
+  }
+
   const handleSubmit = () => {
-    handleSave(formData, isUpdateMode) // Pass formData to parent along with update flag
+    if (validateForm()) {
+      handleSave(formData, isUpdateMode) // Pass formData to parent along with update flag
+    }
   }
 
   return (
@@ -72,6 +99,12 @@ const AddExpenseModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {!formValid && (
+          <Alert variant="danger" className="mb-3">
+            Please provide all required information.
+          </Alert>
+        )}
+
         <Form>
           <Row>
             {fields.map((field) => (
@@ -82,6 +115,7 @@ const AddExpenseModal = ({
                     <Form.Select
                       value={formData[field.key]}
                       onChange={(e) => handleFormChange(e, field.key)}
+                      isInvalid={errors[field.key]} // Show red border if invalid
                     >
                       <option value="">Select {field.label}</option>
                       {field.key === "category"
@@ -109,7 +143,13 @@ const AddExpenseModal = ({
                       type={field.type}
                       value={formData[field.key]}
                       onChange={(e) => handleFormChange(e, field.key)}
+                      isInvalid={errors[field.key]} // Show red border if invalid
                     />
+                  )}
+                  {errors[field.key] && (
+                    <Form.Control.Feedback type="invalid">
+                      {errors[field.key]}
+                    </Form.Control.Feedback>
                   )}
                 </Form.Group>
               </Col>
