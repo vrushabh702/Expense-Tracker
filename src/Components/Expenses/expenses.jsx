@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ExpensesTable from "./expensesTable"
 import ExpenseDropDown from "./expensesDropDown"
 import { Button } from "react-bootstrap"
@@ -8,18 +8,13 @@ import SearchBar from "./searchBar"
 import ExpensesViewModal from "./modal/modelView"
 import AddExpenseModal from "./modal/modalAddUpdate"
 import NoDataError from "../Errors/errorNoData"
-
-// Import hooks and functions
-// import useFirestore from "./hooks/useFirestore" // Correctly import useFirestore hook
+import useFetchData from "./hooks/useFetchData"
 import useFilter from "./hooks/useFilter"
 import usePagination from "./hooks/usePagination"
 import useExportCSV from "./hooks/useExportData"
-import useSearch from "./hooks/useSearch"
-import useFetchData from "./hooks/useFetchData" // Correctly import useFetchData hook
-import useFirestore from "./hooks/useFireStore"
+import useSearch from "./hooks/useSearch" // Import the useSearch hook
 
 const Expense = () => {
-  // Use the hooks
   const {
     data,
     filteredData,
@@ -29,13 +24,17 @@ const Expense = () => {
     error,
     setFilteredData,
   } = useFetchData()
+
   const { currentItems, totalPages, currentPage, handlePageChange } =
     usePagination(filteredData)
-  const { searchQuery, setSearchQuery } = useSearch(filteredData) // Use filteredData instead of data directly
+
+  const { searchQuery, setSearchQuery } = useSearch(data, setFilteredData) // Use search functionality
+
+  // Pass searchQuery to the filter hook
   const { handleFilterChange, selectedCategory, selectedPaymentMethod } =
     useFilter(setFilteredData, data, searchQuery)
-  const { exportToCSV } = useExportCSV(filteredData) // Export filteredData
-  const { addExpense, updateExpense, deleteExpense } = useFirestore() // Ensure these are destructured properly
+
+  const { exportToCSV } = useExportCSV(data) // Use the custom hook to handle CSV export
 
   const [modalOpen, setModalOpen] = useState(false)
   const [currentExpense, setCurrentExpense] = useState(null)
@@ -55,13 +54,18 @@ const Expense = () => {
   const [isUpdateMode, setIsUpdateMode] = useState(false)
 
   const handleAddExpense = (expense, isUpdate) => {
+    let updatedData = []
     if (isUpdate) {
-      updateExpense(expense.id, expense) // Update expense in Firestore
+      updatedData = data.map((item) =>
+        item.userEmail === expense.userEmail ? expense : item
+      )
     } else {
-      addExpense(expense) // Add new expense to Firestore
+      updatedData = [expense, ...data]
     }
 
-    // Reset form data
+    setFilteredData(updatedData)
+    localStorage.setItem("expenses", JSON.stringify(updatedData))
+
     setFormData({
       userName: "",
       userCountry: "",
@@ -84,7 +88,9 @@ const Expense = () => {
   }
 
   const handleDeleteExpense = (expense) => {
-    deleteExpense(expense.id) // Delete expense from Firestore
+    const updatedData = data.filter((item) => item !== expense)
+    setFilteredData(updatedData)
+    localStorage.setItem("expenses", JSON.stringify(updatedData))
   }
 
   const handleViewExpense = (expense) => {
@@ -107,7 +113,8 @@ const Expense = () => {
           Add Expense
         </Button>
         <div className="w-1/4">
-          <SearchBar onSearch={setSearchQuery} />
+          <SearchBar onSearch={setSearchQuery} />{" "}
+          {/* Pass setSearchQuery here */}
         </div>
         <div className="flex gap-4">
           <ExpenseDropDown
