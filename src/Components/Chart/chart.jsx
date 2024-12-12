@@ -13,6 +13,7 @@ import {
 import ExpenseDropDown from "../Expenses/expensesDropDown"
 import Loading from "../Loading/loading"
 import Error from "../Errors/Error"
+
 const LineChartPage = () => {
   const [lineData, setLineData] = useState([])
   const [categories, setCategories] = useState([])
@@ -21,6 +22,7 @@ const LineChartPage = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [chartWidth, setChartWidth] = useState("100%")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +76,21 @@ const LineChartPage = () => {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    const calculateChartWidth = () => {
+      const dataLength = filteredData.length
+      const minWidth = 300 // Minimum width of the chart
+      const maxWidth = 1000 // Maximum width of the chart
+      const width = Math.max(
+        Math.min(dataLength * 30, maxWidth), // 30px per data point, with maxWidth constraint
+        minWidth
+      )
+      setChartWidth(width)
+    }
+
+    calculateChartWidth()
+  }, [lineData, selectedCategory, selectedPaymentMethod])
+
   const filteredData = lineData.filter(
     (expense) =>
       (selectedCategory ? expense.category === selectedCategory : true) &&
@@ -82,15 +99,10 @@ const LineChartPage = () => {
         : true)
   )
 
-  const categoriesSet = [
-    ...new Set(filteredData.map((expense) => expense.category)),
-  ]
-
-  // Log filtered data to inspect structure
-  console.log("Filtered Data:", filteredData)
-
-  // Log categories set
-  console.log("Categories Set:", categoriesSet)
+  // Debugging: log the filtered data and categories to check if they are correctly filtered
+  useEffect(() => {
+    console.log("Filtered Data: ", filteredData)
+  }, [filteredData])
 
   if (isLoading) {
     return <Loading />
@@ -100,6 +112,12 @@ const LineChartPage = () => {
     return <Error error={error} />
   }
 
+  // Get the categories available in the filtered data
+  const categoriesSet = [
+    ...new Set(filteredData.map((expense) => expense.category)),
+  ]
+
+  // We will check if each category has data and render a line for it
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6 text-center">
@@ -117,39 +135,48 @@ const LineChartPage = () => {
           placeholder="Select Payment Method"
         />
       </div>
+
       <div className="bg-white shadow-xl rounded-lg p-6">
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={filteredData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="userName" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {categoriesSet.map((category) => {
-              console.log("Rendering category:", category)
+        <div className="overflow-x-auto max-w-full">
+          <ResponsiveContainer width={chartWidth} height={400}>
+            <LineChart data={filteredData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="userName"
+                angle={45} // Rotate labels to prevent overlap
+                textAnchor="start"
+                dy={10} // Adjust vertical position of labels
+                interval={0} // Make sure every label is visible
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {categoriesSet.map((category) => {
+                // Filter data for the current category
+                const categoryData = filteredData.filter(
+                  (data) => data.category === category
+                )
 
-              // Filter data for the current category
-              const categoryData = filteredData.filter(
-                (data) => data.category === category
-              )
+                // Debugging: log the data for each category to ensure it's correct
+                console.log(`Category: ${category} Data: `, categoryData)
 
-              console.log("Category Data:", categoryData)
-
-              return (
-                <Line
-                  key={category}
-                  type="monotone"
-                  dataKey="amount" // This will use 'amount' for plotting the line
-                  stroke={`#${Math.floor(Math.random() * 16777215).toString(
-                    16
-                  )}`} // Random color for each line
-                  name={category}
-                  dot={{ r: 4 }} // This ensures dots appear on the line
-                />
-              )
-            })}
-          </LineChart>
-        </ResponsiveContainer>
+                return (
+                  <Line
+                    key={category}
+                    type="monotone"
+                    dataKey="amount" // This will use 'amount' for plotting the line
+                    stroke={`#${Math.floor(Math.random() * 16777215).toString(
+                      16
+                    )}`} // Random color for each line
+                    name={category}
+                    dot={{ r: 4 }} // This ensures dots appear on the line
+                    // data={categoryData} // Use the filtered category data here
+                  />
+                )
+              })}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   )

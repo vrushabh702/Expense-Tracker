@@ -1,12 +1,8 @@
-// import React from "react"
-// import { Link, useNavigate } from "react-router-dom"
-// import { Navbar, Nav, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap"
-// import { auth } from "../firebase"
-
 import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { auth } from "../firebase"
 import { Dropdown, Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { NavLink } from "react-router-dom" // Import NavLink for active class functionality
 import DarkMode from "../DarkMode/darkMode"
 
 const ExpenseNavbar = () => {
@@ -30,19 +26,34 @@ const ExpenseNavbar = () => {
         console.error("logout error", error)
       })
   }
-  // const userName = "John Doe"
 
   return (
     <Navbar bg="light" expand="lg" className="p-3 shadow-md">
-      <Navbar.Brand as={Link} to="/">
-        Home
-      </Navbar.Brand>
       <Navbar.Toggle aria-controls="navbar-nav" />
       <Navbar.Collapse id="navbar-nav">
         <Nav className="mr-auto bg-white text-black dark:bg-gray-800 dark:text-white">
-          <Nav.Link as={Link} to="/expenses" className="mr-3">
-            Expenses
-          </Nav.Link>
+          {/* Use NavLink to apply active class automatically */}
+          <Nav.Item>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "nav-link text-danger" : "nav-link"
+              }
+            >
+              Home
+            </NavLink>
+          </Nav.Item>
+
+          <Nav.Item>
+            <NavLink
+              to="/expenses"
+              className={({ isActive }) =>
+                isActive ? "nav-link text-danger" : "nav-link"
+              }
+            >
+              Expenses
+            </NavLink>
+          </Nav.Item>
 
           <Dropdown>
             <Dropdown.Toggle
@@ -50,18 +61,29 @@ const ExpenseNavbar = () => {
               id="dropdown-chart"
               className="mr-3"
             >
-              chart
+              Chart
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item as={Link} to="/chart/line">
-                Line
+              <Dropdown.Item>
+                <NavLink
+                  to="/chart/line"
+                  className={({ isActive }) => (isActive ? "text-danger" : "")}
+                >
+                  Line
+                </NavLink>
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/chart/pie">
-                pie
+              <Dropdown.Item>
+                <NavLink
+                  to="/chart/pie"
+                  className={({ isActive }) => (isActive ? "text-danger" : "")}
+                >
+                  Pie
+                </NavLink>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </Nav>
+
         <div className="d-flex items-center">
           <OverlayTrigger
             placement="bottom"
