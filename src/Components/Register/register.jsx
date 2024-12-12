@@ -115,6 +115,16 @@ const Register = () => {
             onClose={() => setNotification(null)}
           />
         )}
+        <div className="mt-4 flex justify-between text-sm text-gray-600">
+          <div>
+            <button
+              onClick={() => navigate("/login")}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../firebase"
 import Notification from "../Toastify/notification" // Notification component
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid"
 
 const Login = () => {
   const [email, setEmail] = useState("") // Email state
@@ -11,6 +12,7 @@ const Login = () => {
   const [errors, setErrors] = useState({}) // Form validation errors
   const [notification, setNotification] = useState(null) // Notification state
   const [formValid, setFormValid] = useState(true) // Form validity
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
   // Validate form fields
@@ -86,14 +88,27 @@ const Login = () => {
 
             <Form.Group controlId="formPassword" className="mb-4">
               <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                isInvalid={!!errors.password} // Highlight field if error exists
-                className="border-gray-300 focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="relative">
+                <Form.Control
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  isInvalid={!!errors.password} // Highlight field if error exists
+                  className="border-gray-300 focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-5 h-5 text-gray-600" />
+                  ) : (
+                    <EyeIcon className="w-5 h-5 text-gray-600" />
+                  )}
+                </button>
+              </div>
               {errors.password && (
                 <Form.Control.Feedback type="invalid">
                   {errors.password}
@@ -117,6 +132,24 @@ const Login = () => {
               onClose={() => setNotification(null)} // Close notification
             />
           )}
+          <div className="mt-4 flex justify-between text-sm text-gray-600">
+            <div>
+              <button
+                onClick={() => navigate("/register")}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Create an account
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => navigate("/forget")}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                Forgot Password ?
+              </button>
+            </div>
+          </div>
         </Col>
       </Row>
     </Container>

@@ -39,7 +39,7 @@ const ExpenseNavbar = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="navbar-nav" />
       <Navbar.Collapse id="navbar-nav">
-        <Nav className="mr-auto">
+        <Nav className="mr-auto bg-white text-black dark:bg-gray-800 dark:text-white">
           <Nav.Link as={Link} to="/expenses" className="mr-3">
             Expenses
           </Nav.Link>

@@ -58,7 +58,7 @@ const AddExpenseModal = ({
     },
     { label: "Date", key: "date", type: "date", required: true },
     { label: "Description", key: "description", type: "text", required: false },
-    { label: "Budget", key: "budget", type: "number", required: false },
+    { label: "Budget", key: "budget", type: "number", required: true },
     { label: "Currency", key: "currency", type: "select", required: true },
   ]
 
