@@ -15,6 +15,8 @@ import ExpenseNavbar from "./Components/navbar/expenseNavbar"
 import { AuthProvider, useAuth } from "./Components/Auth/AuthContext"
 import PrivateRoute from "./Components/Auth/PrivateRoute"
 import "./App.css"
+import YourExpense from "./Components/YourExpenses/yourExpenses"
+import YourPieChart from "./Components/YourChart/yourPieChart"
 
 function App() {
   return (
@@ -46,6 +48,14 @@ const AppContent = () => {
         <Route
           path="/expenses"
           element={<PrivateRoute element={<Expenses />} />}
+        />
+        <Route
+          path="/yourExpense"
+          element={<PrivateRoute element={<YourExpense />} />}
+        />
+        <Route
+          path="/yourChart"
+          element={<PrivateRoute element={<YourPieChart />} />}
         />
         <Route
           path="/chart/line"

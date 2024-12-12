@@ -53,19 +53,32 @@ const Expense = () => {
   })
   const [isUpdateMode, setIsUpdateMode] = useState(false)
 
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
+    setFilteredData(storedData) // Set the state to the data in localStorage
+    setFilteredData(storedData.length > 0 ? storedData : data)
+  }, [data])
+
   const handleAddExpense = (expense, isUpdate) => {
+    // Get existing expenses from localStorage, if any
+    const storedData = JSON.parse(localStorage.getItem("expenses")) || []
+
     let updatedData = []
     if (isUpdate) {
-      updatedData = data.map((item) =>
+      // Update the existing data (find the matching email and update it)
+      updatedData = storedData.map((item) =>
         item.userEmail === expense.userEmail ? expense : item
       )
     } else {
-      updatedData = [expense, ...data]
+      // Add a new expense to the existing list
+      updatedData = [expense, ...storedData]
     }
 
+    // Update filteredData and localStorage
     setFilteredData(updatedData)
     localStorage.setItem("expenses", JSON.stringify(updatedData))
 
+    // Reset form data after saving the expense
     setFormData({
       userName: "",
       userCountry: "",
@@ -78,6 +91,8 @@ const Expense = () => {
       budget: "",
       currency: "",
     })
+
+    // Close the modal
     setShowModal(false)
   }
 
@@ -88,7 +103,8 @@ const Expense = () => {
   }
 
   const handleDeleteExpense = (expense) => {
-    const updatedData = data.filter((item) => item !== expense)
+    // const updatedData = data.filter((item) => item !== expense)
+    const updatedData = filteredData.filter((item) => item !== expense)
     setFilteredData(updatedData)
     localStorage.setItem("expenses", JSON.stringify(updatedData))
   }
@@ -109,7 +125,25 @@ const Expense = () => {
       </h2>
 
       <div className="flex justify-between items-center mb-6">
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setIsUpdateMode(false)
+            setFormData({
+              userName: "",
+              userCountry: "",
+              userEmail: "",
+              category: "",
+              amount: "",
+              paymentMethod: "",
+              date: "",
+              description: "",
+              budget: "",
+              currency: "",
+            })
+            setShowModal(true)
+          }}
+        >
           Add Expense
         </Button>
         <div className="w-1/4">

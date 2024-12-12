@@ -2,9 +2,9 @@ import React, { useState } from "react"
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../firebase"
 import Notification from "../Toastify/notification" // Notification component
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid"
+import { auth } from "../../firebase"
 
 const Login = () => {
   const [email, setEmail] = useState("") // Email state

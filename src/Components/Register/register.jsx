@@ -1,10 +1,10 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { auth } from "../firebase"
 import { Alert, Button, Form } from "react-bootstrap"
 import "tailwindcss/tailwind.css"
 import Notification from "../Toastify/notification"
+import { auth } from "../../firebase"
 
 const Register = () => {
   const [email, setEmail] = useState("")

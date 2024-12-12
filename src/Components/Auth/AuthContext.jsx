@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
-import { auth } from "../firebase" // Firebase config
 import Cookies from "js-cookie" // Import js-cookie
+import { auth } from "../../firebase"
 
 const AuthContext = createContext()
 

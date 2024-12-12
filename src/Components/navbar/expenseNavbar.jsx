@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { auth } from "../firebase"
 import { Dropdown, Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { NavLink } from "react-router-dom" // Import NavLink for active class functionality
 import DarkMode from "../DarkMode/darkMode"
+import { auth } from "../../firebase"
 
 const ExpenseNavbar = () => {
   const navigate = useNavigate()
@@ -55,11 +55,35 @@ const ExpenseNavbar = () => {
             </NavLink>
           </Nav.Item>
 
+          <Nav.Item>
+            <NavLink
+              to="/yourExpense"
+              className={({ isActive }) =>
+                isActive ? "nav-link text-danger" : "nav-link"
+              }
+            >
+              Your-Expenses
+            </NavLink>
+          </Nav.Item>
+
+          <Nav.Item>
+            <NavLink
+              to="/yourChart"
+              className={({ isActive }) =>
+                isActive ? "nav-link text-danger" : "nav-link"
+              }
+            >
+              Your-Chart
+            </NavLink>
+          </Nav.Item>
+
           <Dropdown>
             <Dropdown.Toggle
-              variant="success"
+              variant=""
               id="dropdown-chart"
-              className="mr-3"
+              className={`mr-3  ${
+                window.location.pathname.includes("/chart") ? "text-danger" : ""
+              } `}
             >
               Chart
             </Dropdown.Toggle>
