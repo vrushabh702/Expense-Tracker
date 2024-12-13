@@ -19,6 +19,8 @@ import YourExpense from "./Components/YourExpenses/yourExpenses"
 import YourPieChart from "./Components/YourChart/yourPieChart"
 import { DarkModeProvider } from "./Components/DarkMode/darkModeContext"
 import DarkMode from "./Components/DarkMode/darkMode"
+import ExpensesImage from "./Components/Expenses-Image/expensesImages"
+import Dashboard from "./Components/Dashboard/dashbord"
 
 function App() {
   return (
@@ -57,6 +59,10 @@ const AppContent = () => {
           element={<PrivateRoute element={<YourExpense />} />}
         />
         <Route
+          path="/manageByImages"
+          element={<PrivateRoute element={<ExpensesImage />} />}
+        />
+        <Route
           path="/yourChart"
           element={<PrivateRoute element={<YourPieChart />} />}
         />
@@ -67,6 +73,10 @@ const AppContent = () => {
         <Route
           path="/chart/pie"
           element={<PrivateRoute element={<PieChartPage />} />}
+        />
+        <Route
+          path="/Dashboard"
+          element={<PrivateRoute element={<Dashboard />} />}
         />
       </Routes>
     </div>

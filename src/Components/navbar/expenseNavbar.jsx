@@ -60,6 +60,17 @@ const ExpenseNavbar = () => {
 
             <Nav.Item>
               <NavLink
+                to="/manageByImages"
+                className={({ isActive }) =>
+                  isActive ? "nav-link text-danger" : "nav-link"
+                }
+              >
+                Expenses-Image
+              </NavLink>
+            </Nav.Item>
+
+            <Nav.Item>
+              <NavLink
                 to="/yourExpense"
                 className={({ isActive }) =>
                   isActive ? "nav-link text-danger" : "nav-link"
@@ -115,6 +126,16 @@ const ExpenseNavbar = () => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+            <Nav.Item>
+              <NavLink
+                to="/Dashboard"
+                className={({ isActive }) =>
+                  isActive ? "nav-link text-danger" : "nav-link"
+                }
+              >
+                Dashboard
+              </NavLink>
+            </Nav.Item>
           </Nav>
 
           <div className="d-flex items-center">
