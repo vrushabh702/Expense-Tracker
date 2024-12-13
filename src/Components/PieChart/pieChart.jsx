@@ -119,125 +119,127 @@ const PieChartPage = () => {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
-      <div className="flex gap-4 mb-6">
-        <ExpenseDropDown
-          options={categories}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          placeholder="select Category"
-        />
+    <div className="bg-white dark:bg-gray-800 text-black dark:text-white">
+      <div className="p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center">Expense Tracker</h1>
+        <div className="flex gap-4 mb-6">
+          <ExpenseDropDown
+            options={categories}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            placeholder="select Category"
+          />
 
-        <ExpenseDropDown
-          options={paymentMethods}
-          onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-          placeholder="Select Payment Method"
-        />
-      </div>
-
-      <div className="flex gap-8">
-        {/* Expense Pie Chart */}
-        <div className="w-1/2">
-          <h2 className="text-lg font-bold text-center mb-4">
-            Expense by Category
-          </h2>
-          {pieChartData.length > 0 ? (
-            <PieChart width={400} height={400}>
-              <Pie
-                data={pieChartData}
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                fill="#8884d8"
-                dataKey="value"
-                label
-              >
-                {pieChartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          ) : (
-            <div className="flex justify-center items-center h-screen bg-red-100">
-              <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
-                <div className="mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-16 h-16 text-red-400 mx-auto"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-semibold text-red-700 mb-2"></h3>
-                <p className="text-red-500">Selected Data is not available</p>
-              </div>
-            </div>
-          )}
+          <ExpenseDropDown
+            options={paymentMethods}
+            onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+            placeholder="Select Payment Method"
+          />
         </div>
 
-        {/* Budget Pie Chart */}
-        <div className="w-1/2">
-          <h2 className="text-lg font-bold text-center mb-4">
-            Budget by Category
-          </h2>
-          {budgetChartData.length > 0 ? (
-            <PieChart width={400} height={400}>
-              <Pie
-                data={budgetChartData}
-                cx="50%"
-                cy="50%"
-                outerRadius={120}
-                fill="#8884d8"
-                dataKey="value"
-                label
-              >
-                {budgetChartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          ) : (
-            <div className="flex justify-center items-center h-screen bg-red-100">
-              <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
-                <div className="mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-16 h-16 text-red-400 mx-auto"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
+        <div className="flex gap-8">
+          {/* Expense Pie Chart */}
+          <div className="w-1/2">
+            <h2 className="text-lg font-bold text-center mb-4">
+              Expense by Category
+            </h2>
+            {pieChartData.length > 0 ? (
+              <PieChart width={400} height={400}>
+                <Pie
+                  data={pieChartData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label
+                >
+                  {pieChartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
                     />
-                  </svg>
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            ) : (
+              <div className="flex justify-center items-center h-screen bg-red-100">
+                <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
+                  <div className="mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-16 h-16 text-red-400 mx-auto"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-semibold text-red-700 mb-2"></h3>
+                  <p className="text-red-500">Selected Data is not available</p>
                 </div>
-                <h3 className="text-2xl font-semibold text-red-700 mb-2"></h3>
-                <p className="text-red-500">Selected Data is not available</p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          {/* Budget Pie Chart */}
+          <div className="w-1/2">
+            <h2 className="text-lg font-bold text-center mb-4">
+              Budget by Category
+            </h2>
+            {budgetChartData.length > 0 ? (
+              <PieChart width={400} height={400}>
+                <Pie
+                  data={budgetChartData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label
+                >
+                  {budgetChartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            ) : (
+              <div className="flex justify-center items-center h-screen bg-red-100">
+                <div className="text-center p-6 bg-white shadow-xl rounded-lg max-w-md mx-auto">
+                  <div className="mb-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-16 h-16 text-red-400 mx-auto"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 9v3m0 3h.01M5.12 5.12a9 9 0 1112.76 12.76 9 9 0 01-12.76-12.76z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-semibold text-red-700 mb-2"></h3>
+                  <p className="text-red-500">Selected Data is not available</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

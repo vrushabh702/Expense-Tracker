@@ -17,33 +17,36 @@ import PrivateRoute from "./Components/Auth/PrivateRoute"
 import "./App.css"
 import YourExpense from "./Components/YourExpenses/yourExpenses"
 import YourPieChart from "./Components/YourChart/yourPieChart"
+import { DarkModeProvider } from "./Components/DarkMode/darkModeContext"
+import DarkMode from "./Components/DarkMode/darkMode"
 
 function App() {
   return (
-    <AuthProvider>
-      {/* App content goes here */}
-      <AppContent />
-    </AuthProvider>
+    <DarkModeProvider>
+      <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
+        {/* Wrap your whole app with DarkModeProvider */}
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+        <DarkMode />
+      </div>
+    </DarkModeProvider>
   )
 }
 
 const AppContent = () => {
-  const { user } = useAuth() // Get the current user from the context
-  const location = useLocation() // Get the current route
-  console.log(process.env.REACT_APP_FIREBASE_MEASUREMENT_ID)
+  const { user } = useAuth()
+  const location = useLocation()
 
   return (
     <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
-      {/* Only show navbar if user is logged in and not on the login/register page */}
+      {/* Only show navbar if user is logged in and not on login/register pages */}
       {user &&
         location.pathname !== "/login" &&
         location.pathname !== "/register" && <ExpenseNavbar />}
       <Routes>
-        {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Private routes */}
         <Route path="/" element={<PrivateRoute element={<Home />} />} />
         <Route
           path="/expenses"
