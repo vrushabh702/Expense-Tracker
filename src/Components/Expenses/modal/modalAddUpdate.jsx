@@ -24,7 +24,7 @@ const AddExpenseModal = ({
       setErrors({})
       setFormValid(true)
     }
-  })
+  }, [show])
 
   // Fetch data from the API
   useEffect(() => {

@@ -120,9 +120,12 @@ const Dashboard = () => {
             <Card className="shadow-lg rounded-lg bg-white p-4">
               <Card.Body>
                 <h5 className="text-lg font-semibold text-gray-800">
-                  Active Users
+                  Total Budget
                 </h5>
-                <p className="text-2xl text-green-600">200</p>
+                <p className="text-2xl text-green-600">
+                  200 200 200 200 200 200 200 200 200
+                </p>
+
                 <Button variant="outline-primary" className="mt-2 w-full">
                   View Details
                 </Button>
@@ -296,7 +299,7 @@ const Dashboard = () => {
         {/* Footer */}
         <Row className="mt-6">
           <Col className="text-center text-gray-500">
-            <p>&copy; 2024 Dashboard | All rights reserved</p>
+            <p>&copy; 2024 | All rights reserved</p>
           </Col>
         </Row>
       </Container>

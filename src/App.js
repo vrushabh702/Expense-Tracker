@@ -21,18 +21,17 @@ import { DarkModeProvider } from "./Components/DarkMode/darkModeContext"
 import DarkMode from "./Components/DarkMode/darkMode"
 import ExpensesImage from "./Components/Expenses-Image/expensesImages"
 import Dashboard from "./Components/Dashboard/dashbord"
+import DarkModeTest from "./Components/DarkModeTest/darkModeTest"
+import AdminDashBoard from "./Components/Dashboard/adminDashBoard"
 
 function App() {
   return (
-    <DarkModeProvider>
-      <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
-        {/* Wrap your whole app with DarkModeProvider */}
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
-        <DarkMode />
-      </div>
-    </DarkModeProvider>
+    <div className="">
+      {/* Wrap your whole app with DarkModeProvider */}
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </div>
   )
 }
 
@@ -41,7 +40,10 @@ const AppContent = () => {
   const location = useLocation()
 
   return (
-    <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
+    // <DarkModeProvider>
+    <div className="">
+      {/* <DarkMode /> */}
+
       {/* Only show navbar if user is logged in and not on login/register pages */}
       {user &&
         location.pathname !== "/login" &&
@@ -76,10 +78,16 @@ const AppContent = () => {
         />
         <Route
           path="/Dashboard"
-          element={<PrivateRoute element={<Dashboard />} />}
+          // element={<PrivateRoute element={<Dashboard />} />}
+          element={<PrivateRoute element={<AdminDashBoard />} />}
+        />
+        <Route
+          path="/DarkModeTest"
+          element={<PrivateRoute element={<DarkModeTest />} />}
         />
       </Routes>
     </div>
+    // </DarkModeProvider>
   )
 }
 

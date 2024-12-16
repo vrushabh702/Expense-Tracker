@@ -11,6 +11,7 @@ export const DarkModeProvider = ({ children }) => {
     // Get the dark mode preference from localStorage
     const storedMode = localStorage.getItem("darkMode")
     // Parse the value to boolean (true or false)
+    console.log("storedMode", storedMode)
     if (storedMode) {
       setIsDarkMode(storedMode === "true") // Compare string with "true"
       if (storedMode === "true") {

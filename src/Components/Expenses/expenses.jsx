@@ -119,100 +119,102 @@ const Expense = () => {
   if (data.length === 0) return <NoDataError />
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-        Expense Tracker
-      </h2>
+    <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
+      <div className="p-8">
+        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
+          Expense Tracker
+        </h2>
 
-      <div className="flex justify-between items-center mb-6">
-        <Button
-          variant="primary"
-          onClick={() => {
-            setIsUpdateMode(false)
-            setFormData({
-              userName: "",
-              userCountry: "",
-              userEmail: "",
-              category: "",
-              amount: "",
-              paymentMethod: "",
-              date: "",
-              description: "",
-              budget: "",
-              currency: "",
-            })
-            setShowModal(true)
-          }}
-        >
-          Add Expense
-        </Button>
-        <div className="w-1/4">
-          <SearchBar onSearch={setSearchQuery} />{" "}
-          {/* Pass setSearchQuery here */}
+        <div className="flex justify-between items-center mb-6">
+          <Button
+            variant="primary"
+            onClick={() => {
+              setIsUpdateMode(false)
+              setFormData({
+                userName: "",
+                userCountry: "",
+                userEmail: "",
+                category: "",
+                amount: "",
+                paymentMethod: "",
+                date: "",
+                description: "",
+                budget: "",
+                currency: "",
+              })
+              setShowModal(true)
+            }}
+          >
+            Add Expense
+          </Button>
+          <div className="w-1/4">
+            <SearchBar onSearch={setSearchQuery} />{" "}
+            {/* Pass setSearchQuery here */}
+          </div>
+          <div className="flex gap-4">
+            <ExpenseDropDown
+              options={categories}
+              onChange={(e) =>
+                handleFilterChange(e.target.value, selectedPaymentMethod)
+              }
+              placeholder="Filter by Category"
+            />
+            <ExpenseDropDown
+              options={paymentMethods}
+              onChange={(e) =>
+                handleFilterChange(selectedCategory, e.target.value)
+              }
+              placeholder="Filter by Payment-method"
+            />
+          </div>
+          {/* Add export button */}
+          <Button variant="success" onClick={exportToCSV}>
+            Export to CSV
+          </Button>
         </div>
-        <div className="flex gap-4">
-          <ExpenseDropDown
-            options={categories}
-            onChange={(e) =>
-              handleFilterChange(e.target.value, selectedPaymentMethod)
-            }
-            placeholder="Filter by Category"
-          />
-          <ExpenseDropDown
-            options={paymentMethods}
-            onChange={(e) =>
-              handleFilterChange(selectedCategory, e.target.value)
-            }
-            placeholder="Filter by Payment-method"
-          />
+
+        <ExpensesTable
+          expenses={currentItems}
+          onView={handleViewExpense}
+          onEdit={handleEditExpense}
+          onDelete={handleDeleteExpense}
+        />
+
+        <div className="flex justify-center gap-4 mt-6">
+          <Button
+            variant="secondary"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="flex items-center text-gray-800 text-sm">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            variant="secondary"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
         </div>
-        {/* Add export button */}
-        <Button variant="success" onClick={exportToCSV}>
-          Export to CSV
-        </Button>
+
+        <ExpensesViewModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          expense={currentExpense}
+        />
+
+        <AddExpenseModal
+          show={showModal}
+          handleClose={() => setShowModal(false)}
+          formData={formData}
+          setFormData={setFormData}
+          handleSave={handleAddExpense}
+          isUpdateMode={isUpdateMode}
+        />
       </div>
-
-      <ExpensesTable
-        expenses={currentItems}
-        onView={handleViewExpense}
-        onEdit={handleEditExpense}
-        onDelete={handleDeleteExpense}
-      />
-
-      <div className="flex justify-center gap-4 mt-6">
-        <Button
-          variant="secondary"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </Button>
-        <span className="flex items-center text-gray-800 text-sm">
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          variant="secondary"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
-      </div>
-
-      <ExpensesViewModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        expense={currentExpense}
-      />
-
-      <AddExpenseModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        formData={formData}
-        setFormData={setFormData}
-        handleSave={handleAddExpense}
-        isUpdateMode={isUpdateMode}
-      />
     </div>
   )
 }

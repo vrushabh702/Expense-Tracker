@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Dropdown, Nav, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { NavLink } from "react-router-dom" // Import NavLink for active class functionality
 import { auth } from "../../firebase"
-import DarkMode from "../DarkMode/darkMode"
+// import DarkMode from "../DarkMode/darkMode"
 // import { useDarkMode } from "../DarkMode/darkModeContext"
 
 const ExpenseNavbar = () => {
@@ -128,12 +128,23 @@ const ExpenseNavbar = () => {
             </Dropdown>
             <Nav.Item>
               <NavLink
+                // to="/Dashboard"
                 to="/Dashboard"
                 className={({ isActive }) =>
                   isActive ? "nav-link text-danger" : "nav-link"
                 }
               >
                 Dashboard
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink
+                to="/DarkModeTest"
+                className={({ isActive }) =>
+                  isActive ? "nav-link text-danger" : "nav-link"
+                }
+              >
+                DarkModeTest
               </NavLink>
             </Nav.Item>
           </Nav>
@@ -158,7 +169,7 @@ const ExpenseNavbar = () => {
         {/* <button onClick={toggleDarkMode} className="btn btn-dark ml-3">
         {isDarkMode ? "Light Mode" : "Dark Mode"}
       </button> */}
-        <DarkMode></DarkMode>
+        {/* <DarkMode></DarkMode> */}
       </Navbar>
     </div>
   )
