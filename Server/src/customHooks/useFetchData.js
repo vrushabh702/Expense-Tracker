@@ -11,20 +11,21 @@ const useFetchData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const users = await fetch("http://localhost:3000/api/user.json").then(
+        // Fetching data from the backend API
+        const users = await fetch("http://localhost:3001/api/users").then(
           (res) => res.json()
         )
-        const budgets = await fetch(
-          "http://localhost:3000/api/budget.json"
-        ).then((res) => res.json())
-        const expenses = await fetch(
-          "http://localhost:3000/api/expenses.json"
-        ).then((res) => res.json())
+        const budgets = await fetch("http://localhost:3001/api/budgets").then(
+          (res) => res.json()
+        )
+        const expenses = await fetch("http://localhost:3001/api/expenses").then(
+          (res) => res.json()
+        )
         const categories = await fetch(
-          "http://localhost:3000/api/categories.json"
+          "http://localhost:3001/api/categories"
         ).then((res) => res.json())
         const paymentMethods = await fetch(
-          "http://localhost:3000/api/paymentMethod.json"
+          "http://localhost:3001/api/payment-methods"
         ).then((res) => res.json())
 
         setCategories(categories)

@@ -1,0 +1,299 @@
+[
+  {
+    "expenseId": "expenseId1",
+    "userId": "userId1",
+    "category": "Food",
+    "amount": 35.0,
+    "date": "2024-12-01",
+    "description": "Dinner at a restaurant",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId2",
+    "userId": "userId2",
+    "category": "Transport",
+    "amount": 20.0,
+    "date": "2024-12-02",
+    "description": "Taxi fare",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId3",
+    "userId": "userId3",
+    "category": "Shopping",
+    "amount": 50.0,
+    "date": "2024-12-03",
+    "description": "Clothing purchase",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId4",
+    "userId": "userId4",
+    "category": "Bills",
+    "amount": 75.0,
+    "date": "2024-12-04",
+    "description": "Electricity bill",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId5",
+    "userId": "userId5",
+    "category": "Healthcare",
+    "amount": 40.0,
+    "date": "2024-12-05",
+    "description": "Pharmacy purchase",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId6",
+    "userId": "userId6",
+    "category": "Education",
+    "amount": 60.0,
+    "date": "2024-12-06",
+    "description": "Online course fee",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId7",
+    "userId": "userId7",
+    "category": "Miscellaneous",
+    "amount": 25.0,
+    "date": "2024-12-07",
+    "description": "Stationery purchase",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId8",
+    "userId": "userId8",
+    "category": "Travel",
+    "amount": 150.0,
+    "date": "2024-12-08",
+    "description": "Flight ticket",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId9",
+    "userId": "userId9",
+    "category": "Savings",
+    "amount": 100.0,
+    "date": "2024-12-09",
+    "description": "Savings deposit",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId10",
+    "userId": "userId10",
+    "category": "Entertainment",
+    "amount": 30.0,
+    "date": "2024-12-10",
+    "description": "Movie ticket",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId11",
+    "userId": "userId11",
+    "category": "Food",
+    "amount": 45.0,
+    "date": "2024-12-11",
+    "description": "Tacos dinner",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId12",
+    "userId": "userId12",
+    "category": "Transport",
+    "amount": 25.0,
+    "date": "2024-12-12",
+    "description": "Bus ticket",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId13",
+    "userId": "userId13",
+    "category": "Shopping",
+    "amount": 60.0,
+    "date": "2024-12-13",
+    "description": "Electronics purchase",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId14",
+    "userId": "userId14",
+    "category": "Food",
+    "amount": 45.0,
+    "date": "2024-12-14",
+    "description": "Fish and chips",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId15",
+    "userId": "userId15",
+    "category": "Transport",
+    "amount": 22.0,
+    "date": "2024-12-15",
+    "description": "Uber ride",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId16",
+    "userId": "userId16",
+    "category": "Entertainment",
+    "amount": 18.0,
+    "date": "2024-12-16",
+    "description": "Cinema tickets",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId17",
+    "userId": "userId17",
+    "category": "Shopping",
+    "amount": 50.0,
+    "date": "2024-12-17",
+    "description": "New shoes",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId18",
+    "userId": "userId18",
+    "category": "Bills",
+    "amount": 30.0,
+    "date": "2024-12-18",
+    "description": "Internet bill",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId19",
+    "userId": "userId19",
+    "category": "Healthcare",
+    "amount": 60.0,
+    "date": "2024-12-19",
+    "description": "Medical consultation",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId20",
+    "userId": "userId20",
+    "category": "Education",
+    "amount": 80.0,
+    "date": "2024-12-20",
+    "description": "Textbooks purchase",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId21",
+    "userId": "userId21",
+    "category": "Miscellaneous",
+    "amount": 15.0,
+    "date": "2024-12-21",
+    "description": "Coffee shop visit",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId22",
+    "userId": "userId22",
+    "category": "Travel",
+    "amount": 120.0,
+    "date": "2024-12-22",
+    "description": "Weekend getaway",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId23",
+    "userId": "userId23",
+    "category": "Savings",
+    "amount": 90.0,
+    "date": "2024-12-23",
+    "description": "Savings deposit",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId24",
+    "userId": "userId24",
+    "category": "Food",
+    "amount": 48.0,
+    "date": "2024-12-24",
+    "description": "Grocery shopping",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId25",
+    "userId": "userId25",
+    "category": "Transport",
+    "amount": 23.0,
+    "date": "2024-12-25",
+    "description": "Train fare",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId26",
+    "userId": "userId26",
+    "category": "Entertainment",
+    "amount": 19.0,
+    "date": "2024-12-26",
+    "description": "Concert tickets",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId27",
+    "userId": "userId27",
+    "category": "Shopping",
+    "amount": 55.0,
+    "date": "2024-12-27",
+    "description": "Clothing items",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId28",
+    "userId": "userId28",
+    "category": "Bills",
+    "amount": 35.0,
+    "date": "2024-12-28",
+    "description": "Electricity bill",
+    "payment_method": "Bank Transfer"
+  },
+  {
+    "expenseId": "expenseId29",
+    "userId": "userId29",
+    "category": "Healthcare",
+    "amount": 50.0,
+    "date": "2024-12-29",
+    "description": "Health checkup",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId30",
+    "userId": "userId30",
+    "category": "Education",
+    "amount": 75.0,
+    "date": "2024-12-30",
+    "description": "Course registration fee",
+    "payment_method": "Cash"
+  },
+  {
+    "expenseId": "expenseId31",
+    "userId": "userId31",
+    "category": "Miscellaneous",
+    "amount": 20.0,
+    "date": "2024-12-31",
+    "description": "Gift for friend",
+    "payment_method": "Debit Card"
+  },
+  {
+    "expenseId": "expenseId32",
+    "userId": "userId32",
+    "category": "Travel",
+    "amount": 130.0,
+    "date": "2024-12-31",
+    "description": "Flight booking",
+    "payment_method": "Credit Card"
+  },
+  {
+    "expenseId": "expenseId33",
+    "userId": "userId33",
+    "category": "Savings",
+    "amount": 100.0,
+    "date": "2024-12-31",
+    "description": "Savings deposit",
+    "payment_method": "Bank Transfer"
+  }
+]
