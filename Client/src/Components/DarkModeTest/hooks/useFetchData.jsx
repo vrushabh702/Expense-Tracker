@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react"
 
-// Custom hook to fetch and merge data
 const useFetchData = () => {
   const [mergedExpenses, setMergedExpenses] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [filteredData, setFilteredData] = useState([])
+  const [categories, setCategories] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setIsLoading(true)
 
         // Fetching data from the APIs
         const users = await fetch("http://localhost:3001/api/users").then(
@@ -19,7 +21,7 @@ const useFetchData = () => {
           (res) => res.json()
         )
         const budgetCategories = await fetch(
-          "http://localhost:3001/api/budgetCategory"
+          "http://localhost:3001/api/budgetCategories"
         ).then((res) => res.json())
         const expenses = await fetch("http://localhost:3001/api/expenses").then(
           (res) => res.json()
@@ -34,8 +36,7 @@ const useFetchData = () => {
           "http://localhost:3001/api/currencies"
         ).then((res) => res.json())
 
-        // Merging the data
-        const mergedData = expenses.map((expense) => {
+        const mergedExpenses = expenses.map((expense) => {
           const user = users.find((u) => u.userId === expense.userId)
           const category = categories.find(
             (cat) => cat.categoryId === expense.categoryId
@@ -75,21 +76,30 @@ const useFetchData = () => {
           }
         })
 
-        console.log("mergedData", mergedData)
+        setCategories(categories)
+        setPaymentMethods(paymentMethods)
 
-        setMergedExpenses(mergedData)
+        setMergedExpenses(mergedExpenses)
+        setFilteredData(mergedExpenses)
+        setIsLoading(false)
       } catch (err) {
-        setError("Failed to fetch data")
-        console.error(err)
-      } finally {
-        setLoading(false)
+        setError(err.message)
+        setIsLoading(false)
       }
     }
 
     fetchData()
   }, [])
 
-  return { mergedExpenses, loading, error }
+  return {
+    mergedExpenses,
+    filteredData,
+    categories,
+    paymentMethods,
+    isLoading,
+    error,
+    setFilteredData,
+  }
 }
 
 export default useFetchData

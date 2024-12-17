@@ -21,7 +21,7 @@ const useFetchData = () => {
           (res) => res.json()
         )
         const budgetCategories = await fetch(
-          "http://localhost:3001/api/budgetCategory"
+          "http://localhost:3001/api/budgetCategories"
         ).then((res) => res.json())
         const expenses = await fetch("http://localhost:3001/api/expenses").then(
           (res) => res.json()

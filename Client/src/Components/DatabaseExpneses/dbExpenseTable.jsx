@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-const DBExpenseTable = ({ expenses }) => {
+const DBExpenseTable = ({ expenses, onView, onEdit }) => {
   const [noData, setNoData] = useState(false)
 
   useEffect(() => {
@@ -46,10 +46,16 @@ const DBExpenseTable = ({ expenses }) => {
                 <td className="px-6 py-3 text-sm">{expense.budget}</td>
                 <td className="p-2 border flex gap-2 justify-center">
                   {/* Add buttons or actions as necessary */}
-                  <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                  <button
+                    onClick={() => onView(expense)} //
+                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                  >
                     View
                   </button>
-                  <button className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">
+                  <button
+                    onClick={() => onEdit(expense)}
+                    className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+                  >
                     Edit
                   </button>
                   <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
