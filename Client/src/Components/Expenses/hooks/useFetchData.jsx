@@ -19,6 +19,9 @@
 //         const budgets = await fetch("http://localhost:3001/api/budgets").then(
 //           (res) => res.json()
 //         )
+//         const budgetCategory = await fetch("http://localhost:3001/api/budgetCategory").then(
+//           (res) => res.json()
+//         )
 //         const expenses = await fetch("http://localhost:3001/api/expenses").then(
 //           (res) => res.json()
 //         )

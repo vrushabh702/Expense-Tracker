@@ -36,6 +36,13 @@ app.get("/api/budgets", (req, res) => {
   })
 })
 
+app.get("/api/budgetCategory", (req, res) => {
+  db.query("SELECT * FROM budget_categories", (err, results) => {
+    if (err) throw err
+    res.json(results)
+  })
+})
+
 app.get("/api/expenses", (req, res) => {
   db.query("SELECT * FROM expenses", (err, results) => {
     if (err) throw err
