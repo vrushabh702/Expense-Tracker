@@ -23,6 +23,7 @@ import ExpensesImage from "./Components/Expenses-Image/expensesImages"
 import Dashboard from "./Components/Dashboard/dashbord"
 import DarkModeTest from "./Components/DarkModeTest/darkModeTest"
 import AdminDashBoard from "./Components/Dashboard/adminDashBoard"
+import DataBaseExpense from "./Components/DatabaseExpneses/databaseExpense"
 
 function App() {
   return (
@@ -84,6 +85,10 @@ const AppContent = () => {
         <Route
           path="/DarkModeTest"
           element={<PrivateRoute element={<DarkModeTest />} />}
+        />
+        <Route
+          path="/dataBaseExpenses"
+          element={<PrivateRoute element={<DataBaseExpense />} />}
         />
       </Routes>
     </div>

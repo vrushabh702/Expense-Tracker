@@ -1,112 +1,97 @@
 // import { useState, useEffect } from "react"
 
 // const useFetchData = () => {
-//   const [data, setData] = useState([])
+//   const [expensesData, setExpensesData] = useState([])
 //   const [filteredData, setFilteredData] = useState([])
 //   const [categories, setCategories] = useState([])
 //   const [paymentMethods, setPaymentMethods] = useState([])
-//   const [currencies, setCurrencies] = useState([])
 //   const [isLoading, setIsLoading] = useState(true)
 //   const [error, setError] = useState(null)
 
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         // Fetching data from the APIs
-//         const users = await fetch("http://localhost:3001/api/users").then(
-//           (res) => res.json()
-//         )
-//         const budgets = await fetch("http://localhost:3001/api/budgets").then(
-//           (res) => res.json()
-//         )
-//         const budgetCategory = await fetch("http://localhost:3001/api/budgetCategory").then(
-//           (res) => res.json()
-//         )
-//         const expenses = await fetch("http://localhost:3001/api/expenses").then(
-//           (res) => res.json()
-//         )
-//         const categories = await fetch(
-//           "http://localhost:3001/api/categories"
-//         ).then((res) => res.json())
-//         const paymentMethods = await fetch(
-//           "http://localhost:3001/api/payment-methods"
-//         ).then((res) => res.json())
-//         const currencies = await fetch(
-//           "http://localhost:3001/api/currencies"
-//         ).then((res) => res.json())
+//         setIsLoading(true)
 
-//         // Setting state for categories, paymentMethods, and currencies
-//         setCategories(categories)
-//         setPaymentMethods(paymentMethods)
-//         setCurrencies(currencies)
+//         // Fetching data from the APIs in parallel
+//         const [
+//           users,
+//           budgets,
+//           budgetCategories,
+//           expenses,
+//           categories,
+//           paymentMethods,
+//           currencies,
+//         ] = await Promise.all([
+//           fetch("http://localhost:3001/api/users").then((res) => res.json()),
+//           fetch("http://localhost:3001/api/budgets").then((res) => res.json()),
+//           fetch("http://localhost:3001/api/budgetCategory").then((res) =>
+//             res.json()
+//           ),
+//           fetch("http://localhost:3001/api/expenses").then((res) => res.json()),
+//           fetch("http://localhost:3001/api/categories").then((res) =>
+//             res.json()
+//           ),
+//           fetch("http://localhost:3001/api/payment-methods").then((res) =>
+//             res.json()
+//           ),
+//           fetch("http://localhost:3001/api/currencies").then((res) =>
+//             res.json()
+//           ),
+//         ])
 
-//         // Dynamically generating the categoryMap, paymentMethodMap, and currencyMap
-//         const categoryMap = categories.reduce((map, category) => {
-//           map[category.categoryId] = category.categoryName
-//           return map
-//         }, {})
+//         // Merging the data
+//         const mergedExpenses = expenses.map((expense) => {
+//           const user = users.find((u) => u.userId === expense.userId) || {}
+//           const category =
+//             categories.find((cat) => cat.categoryId === expense.categoryId) ||
+//             {}
+//           const paymentMethod =
+//             paymentMethods.find(
+//               (pm) => pm.paymentMethodId === expense.paymentMethodId
+//             ) || {}
+//           const currency =
+//             currencies.find((cur) => cur.currencyId === expense.currencyId) ||
+//             {}
 
-//         const paymentMethodMap = paymentMethods.reduce((map, method) => {
-//           map[method.paymentMethodId] = method.paymentMethodName
-//           return map
-//         }, {})
-
-//         const currencyMap = currencies.reduce((map, currency) => {
-//           map[currency.currencyId] = currency.currencyCode
-//           return map
-//         }, {})
-
-//         // Normalize and merge the data with dynamically mapped values
-//         const normalizedData = users.map((user) => {
-//           const userBudget = budgets.find(
-//             (budget) => budget.userId === user.userId
+//           // Find the budgetCategory and associated budget amount for the given expense category
+//           const budgetCategory = budgetCategories.find(
+//             (bc) => bc.categoryId === expense.categoryId
 //           )
-//           const userExpenses = expenses.filter(
-//             (expense) => expense.userId === user.userId
+//           const budget = budgets.find(
+//             (b) => b.budgetId === budgetCategory?.budgetId
 //           )
-
-//           const expensesWithDetails = userExpenses.map((expense) => ({
-//             ...expense,
-//             userName: user.userName,
-//             userCountry: user.userCountry,
-//             userEmail: user.userEmail,
-//             category: categoryMap[expense.categoryId] || "Unknown", // Use categoryMap to get category name
-//             paymentMethod:
-//               paymentMethodMap[expense.paymentMethodId] || "Unknown", // Use paymentMethodMap to get payment method name
-//             currency: currencyMap[expense.currencyId] || "Unknown", // Use currencyMap to get currency name
-//             budget:
-//               userBudget?.categories[categoryMap[expense.categoryId]] || "N/A", // Map category to budget
-//           }))
+//           const budgetAmount =
+//             budgetCategories.find(
+//               (bc) =>
+//                 bc.budgetId === budget?.budgetId &&
+//                 bc.categoryId === expense.categoryId
+//             )?.amount || 0
 
 //           return {
-//             ...user,
-//             expenses: expensesWithDetails,
+//             userName: user?.userName,
+//             userCountry: user?.userCountry,
+//             userEmail: user?.userEmail,
+//             category: category?.categoryName,
+//             amount: expense.amount,
+//             date: new Date(expense.date).toISOString().split("T")[0], // Formatting date to "YYYY-MM-DD"
+//             description: expense.description,
+//             paymentMethod: paymentMethod?.paymentMethodName,
+//             budget: budgetAmount,
+//             currency: currency?.currencyCode,
 //           }
 //         })
 
-//         // Flatten all expenses into a single list for easy use
-//         const mergedExpenses = normalizedData.flatMap((user) =>
-//           user.expenses.map((expense) => ({
-//             userName: user.userName,
-//             userCountry: user.userCountry,
-//             userEmail: user.userEmail,
-//             category: expense.category,
-//             amount: expense.amount,
-//             date: expense.date,
-//             description: expense.description,
-//             paymentMethod: expense.paymentMethod,
-//             budget: expense.budget,
-//             currency: expense.currency,
-//           }))
-//         )
-
-//         // Setting the final data in state
-//         setData(mergedExpenses)
+//         // Set the states
+//         setCategories(categories)
+//         setPaymentMethods(paymentMethods)
+//         setExpensesData(mergedExpenses)
 //         setFilteredData(mergedExpenses)
 //         setIsLoading(false)
 //       } catch (err) {
 //         setError(err.message)
 //         setIsLoading(false)
+//         console.error("Fetch error: ", err) // Log the error for debugging
 //       }
 //     }
 
@@ -114,11 +99,10 @@
 //   }, [])
 
 //   return {
-//     data,
+//     expensesData,
 //     filteredData,
 //     categories,
 //     paymentMethods,
-//     currencies,
 //     isLoading,
 //     error,
 //     setFilteredData,

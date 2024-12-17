@@ -147,6 +147,16 @@ const ExpenseNavbar = () => {
                 DarkModeTest
               </NavLink>
             </Nav.Item>
+            <Nav.Item>
+              <NavLink
+                to="/dataBaseExpenses"
+                className={({ isActive }) =>
+                  isActive ? "nav-link text-danger" : "nav-link"
+                }
+              >
+                DataBase Expense
+              </NavLink>
+            </Nav.Item>
           </Nav>
 
           <div className="d-flex items-center">
