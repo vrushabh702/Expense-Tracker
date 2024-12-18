@@ -1,3 +1,4 @@
+import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { Modal, Form, Button, Row, Col, Alert } from "react-bootstrap"
 
@@ -8,13 +9,68 @@ const AddExpenseModal = ({
   setFormData,
   handleSave,
   isUpdateMode, // Flag to check if we are in update mode
-  categories,
-  paymentMethods,
-  currencies,
 }) => {
-  // State to manage form validation
+  // State to manage
+  const [categories, setCategories] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+  const [currencies, setCurrencies] = useState([])
+
   const [errors, setErrors] = useState({})
   const [formValid, setFormValid] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categoriesRes = await axios.get(
+          "http://localhost:3001/api/categories"
+        )
+        const paymentMethodsRes = await axios.get(
+          "http://localhost:3001/api/payment-methods"
+        )
+        const currenciesRes = await axios.get(
+          "http://localhost:3001/api/currencies"
+        )
+
+        setCategories(categoriesRes.data)
+        setPaymentMethods(paymentMethodsRes.data)
+        setCurrencies(currenciesRes.data)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  console.log("categories", categories)
+  console.log("paymentMethods", paymentMethods)
+  console.log("currencies", currencies)
+
+  const getOptionKey = (option, fieldKey) => {
+    switch (fieldKey) {
+      case "category":
+        return option.categoryId
+      case "paymentMethod":
+        return option.paymentMethodId
+      case "currency":
+        return option.currencyId
+      default:
+        return null
+    }
+  }
+
+  const getOptionLabel = (option, fieldKey) => {
+    switch (fieldKey) {
+      case "category":
+        return option.categoryName
+      case "paymentMethod":
+        return option.paymentMethodName
+      case "currency":
+        return option.currencyCode
+      default:
+        return null
+    }
+  }
 
   useEffect(() => {
     if (!show) {
@@ -100,10 +156,13 @@ const AddExpenseModal = ({
                   <Form.Label>{field.label}</Form.Label>
                   {field.type === "select" ? (
                     <Form.Select
-                      value={formData[field.key]}
+                      value={formData[field.key] || ""} // Default to empty if no value is selected
                       onChange={(e) => handleFormChange(e, field.key)}
                       isInvalid={errors[field.key]} // Show red border if invalid
                     >
+                      <option value="" disabled>
+                        Select {field.label}
+                      </option>
                       {(field.key === "category"
                         ? categories
                         : field.key === "paymentMethod"
@@ -112,8 +171,11 @@ const AddExpenseModal = ({
                         ? currencies
                         : []
                       ).map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.name || option.code}
+                        <option
+                          key={getOptionKey(option, field.key)}
+                          value={getOptionKey(option, field.key)}
+                        >
+                          {getOptionLabel(option, field.key)}
                         </option>
                       ))}
                     </Form.Select>

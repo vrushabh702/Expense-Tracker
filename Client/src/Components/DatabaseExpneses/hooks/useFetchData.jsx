@@ -5,8 +5,12 @@ const useFetchData = () => {
   const [filteredData, setFilteredData] = useState([])
   const [categories, setCategories] = useState([])
   const [paymentMethods, setPaymentMethods] = useState([])
+  const [budgets, setBudgets] = useState([])
+  const [budgetCategories, setBudgetCategories] = useState([])
+  const [users, setUsers] = useState([]) // Added a state for users
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [view, setView] = useState("expenses") // "expenses" or "budget"
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,49 +18,57 @@ const useFetchData = () => {
         setIsLoading(true)
 
         // Fetching data from the APIs
-        const users = await fetch("http://localhost:3001/api/users").then(
+        const usersData = await fetch("http://localhost:3001/api/users").then(
           (res) => res.json()
         )
-        const budgets = await fetch("http://localhost:3001/api/budgets").then(
-          (res) => res.json()
-        )
-        const budgetCategories = await fetch(
+        const budgetsData = await fetch(
+          "http://localhost:3001/api/budgets"
+        ).then((res) => res.json())
+        const budgetCategoriesData = await fetch(
           "http://localhost:3001/api/budgetCategories"
         ).then((res) => res.json())
-        const expenses = await fetch("http://localhost:3001/api/expenses").then(
-          (res) => res.json()
-        )
-        const categories = await fetch(
+        const expensesData = await fetch(
+          "http://localhost:3001/api/expenses"
+        ).then((res) => res.json())
+        const categoriesData = await fetch(
           "http://localhost:3001/api/categories"
         ).then((res) => res.json())
-        const paymentMethods = await fetch(
+        const paymentMethodsData = await fetch(
           "http://localhost:3001/api/payment-methods"
         ).then((res) => res.json())
-        const currencies = await fetch(
+        const currenciesData = await fetch(
           "http://localhost:3001/api/currencies"
         ).then((res) => res.json())
 
-        const mergedExpenses = expenses.map((expense) => {
-          const user = users.find((u) => u.userId === expense.userId)
-          const category = categories.find(
+        // Set state for users and other data after fetching
+        setUsers(usersData)
+        setCategories(categoriesData)
+        setPaymentMethods(paymentMethodsData)
+        setBudgets(budgetsData)
+        setBudgetCategories(budgetCategoriesData)
+
+        // Merging expenses with user, category, payment method, and currency data
+        const mergedExpenses = expensesData.map((expense) => {
+          const user = usersData.find((u) => u.userId === expense.userId)
+          const category = categoriesData.find(
             (cat) => cat.categoryId === expense.categoryId
           )
-          const paymentMethod = paymentMethods.find(
+          const paymentMethod = paymentMethodsData.find(
             (pm) => pm.paymentMethodId === expense.paymentMethodId
           )
-          const currency = currencies.find(
+          const currency = currenciesData.find(
             (cur) => cur.currencyId === expense.currencyId
           )
 
           // Find the budgetCategory and associated budget amount for the given expense category
-          const budgetCategory = budgetCategories.find(
+          const budgetCategory = budgetCategoriesData.find(
             (bc) => bc.categoryId === expense.categoryId
           )
-          const budget = budgets.find(
+          const budget = budgetsData.find(
             (b) => b.budgetId === budgetCategory?.budgetId
           )
-          const budgetAmount =
-            budgetCategories.find(
+          const amount =
+            budgetCategoriesData.find(
               (bc) =>
                 bc.budgetId === budget?.budgetId &&
                 bc.categoryId === expense.categoryId
@@ -71,15 +83,12 @@ const useFetchData = () => {
             date: new Date(expense.date).toISOString().split("T")[0], // Formatting date to "YYYY-MM-DD"
             description: expense.description,
             paymentMethod: paymentMethod?.paymentMethodName,
-            budget: budgetAmount,
+            budget: amount,
             currency: currency?.currencyCode,
           }
         })
 
-        console.log("mergedExpenses", mergedExpenses)
-        setCategories(categories)
-        setPaymentMethods(paymentMethods)
-
+        // After merging, update states
         setMergedExpenses(mergedExpenses)
         setFilteredData(mergedExpenses)
         setIsLoading(false)
@@ -92,6 +101,42 @@ const useFetchData = () => {
     fetchData()
   }, [])
 
+  // Filter data based on user choice (Expenses or Budget)
+  const filterData = () => {
+    if (view === "expenses") {
+      setFilteredData(mergedExpenses)
+    } else if (view === "budget") {
+      const budgetData = budgets
+        .map((budget) => {
+          // For each user, show all the categories along with the budget data
+          const userBudgets = budgetCategories.filter(
+            (bc) => bc.budgetId === budget.budgetId
+          )
+          return userBudgets.map((userBudget) => {
+            const category = categories.find(
+              (cat) => cat.categoryId === userBudget.categoryId
+            )
+            return {
+              userName: users.find((user) => user.userId === budget.userId)
+                ?.userName,
+              category: category?.categoryName,
+              amount: userBudget.amount,
+              date: new Date(budget.month).toISOString().split("T")[0], // Budget month
+            }
+          })
+        })
+        .flat()
+
+      setFilteredData(budgetData)
+    }
+  }
+  console.log(filteredData, "filteredData")
+
+  // Whenever the view changes, re-filter the data
+  useEffect(() => {
+    filterData()
+  }, [view, mergedExpenses, budgets, budgetCategories])
+
   return {
     mergedExpenses,
     filteredData,
@@ -100,6 +145,7 @@ const useFetchData = () => {
     isLoading,
     error,
     setFilteredData,
+    setView, // Allow the parent component to change the view
   }
 }
 

@@ -4,11 +4,10 @@ import Error from "../Errors/Error"
 import NoDataError from "../Errors/errorNoData"
 import useFetchData from "./hooks/useFetchData"
 import DBExpenseTable from "./dbExpenseTable"
-import AddExpenseModal from "./modal/addExpenseModal" // Import the modal for adding/editing
-import ExpensesViewModal from "./../Expenses/modal/modelView"
+import AddExpenseModal from "./modal/addExpenseModal"
+import ExpensesViewModal from "../Expenses/modal/modelView"
 
 const DataBaseExpense = () => {
-  // State to manage modal visibility, form data, and update mode
   const [showModal, setShowModal] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [formData, setFormData] = useState({
@@ -23,18 +22,17 @@ const DataBaseExpense = () => {
     budget: "",
     currency: "",
   })
-  const [isUpdateMode, setIsUpdateMode] = useState(false) // Flag to check if we are in update mode
-  const [selectedExpense, setSelectedExpense] = useState(null) // Holds the expense data to edit
+  const [isUpdateMode, setIsUpdateMode] = useState(false)
+  const [selectedExpense, setSelectedExpense] = useState(null)
+  const [viewType, setViewType] = useState("expenses") // 'expenses' or 'budget'
 
-  // Fetch data using custom hook
-  const { mergedExpenses, filteredData, isLoading, error } = useFetchData()
+  const { mergedExpenses, filteredData, isLoading, error, setView } =
+    useFetchData(viewType) // Pass viewType to the hook
 
-  // Categories, payment methods, and currencies will be fetched from the API
   const [categories, setCategories] = useState([])
   const [paymentMethods, setPaymentMethods] = useState([])
   const [currencies, setCurrencies] = useState([])
 
-  // Fetch categories, payment methods, and currencies
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,27 +57,22 @@ const DataBaseExpense = () => {
     fetchData()
   }, [])
 
-  // Handle loading, error, and no data states
   if (isLoading) return <Loading />
   if (error) return <Error error={error} />
   if (mergedExpenses.length === 0) return <NoDataError />
 
-  // Handle view expense - no modal involved here
   const handleViewExpense = (expense) => {
     setSelectedExpense(expense)
     setIsModalOpen(true)
   }
 
-  // Close the modal
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setSelectedExpense(null)
   }
 
-  // Handle edit expense - will set modal with prefilled data
   const handleEditExpense = (expense) => {
-    // setSelectedExpense(expense)
-    setIsUpdateMode(true) // Set to update mode
+    setIsUpdateMode(true)
     setFormData({
       userName: expense.userName,
       userCountry: expense.userCountry,
@@ -95,16 +88,21 @@ const DataBaseExpense = () => {
     setShowModal(true)
   }
 
-  // Handle adding or updating expense
   const handleAddExpense = (data, isUpdate) => {
     if (isUpdate) {
-      // Handle updating the expense
       console.log("Updating expense: ", data)
     } else {
-      // Handle adding a new expense
       console.log("Adding expense: ", data)
     }
-    setShowModal(false) // Close the modal after saving
+    setShowModal(false)
+  }
+
+  // Handle view type change (Expense or Budget)
+  const handleViewTypeChange = (event) => {
+    setViewType(event.target.value) // Change viewType state to toggle between 'expenses' and 'budget'
+    const selectedView = event.target.value
+    setView(selectedView) // Change the view based on dropdown selection
+    console.log("Current View:", selectedView) // Log the selected view to the console
   }
 
   return (
@@ -114,7 +112,6 @@ const DataBaseExpense = () => {
           DataBase Expense Tracker
         </h2>
 
-        {/* Separate Add Expense Button */}
         <div className="mb-4 text-center">
           <button
             className="btn btn-primary"
@@ -132,17 +129,27 @@ const DataBaseExpense = () => {
                 budget: "",
                 currency: "",
               })
-              setShowModal(true) // Open modal for adding new expense
+              setShowModal(true)
             }}
           >
             Add New Expense
           </button>
+
+          {/* Dropdown for selecting view type (Expenses or Budget) */}
+          <select
+            value={viewType}
+            onChange={handleViewTypeChange}
+            className="ml-4 p-2 border rounded"
+          >
+            <option value="expenses">Expense View</option>
+            <option value="budget">Budget View</option>
+          </select>
         </div>
 
         <DBExpenseTable
-          expenses={filteredData} // Pass filtered data to table
-          onView={handleViewExpense} // View expense logic
-          onEdit={handleEditExpense} // Edit expense logic
+          data={filteredData} // Pass filtered data to table (expenses or budget)
+          onView={handleViewExpense}
+          onEdit={handleEditExpense}
         />
         {isModalOpen && (
           <ExpensesViewModal
@@ -152,10 +159,9 @@ const DataBaseExpense = () => {
           />
         )}
 
-        {/* Modal for adding/editing expense */}
         <AddExpenseModal
           show={showModal}
-          handleClose={() => setShowModal(false)} // Close modal
+          handleClose={() => setShowModal(false)}
           formData={formData}
           setFormData={setFormData}
           handleSave={handleAddExpense}
