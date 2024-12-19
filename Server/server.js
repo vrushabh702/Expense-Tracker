@@ -376,12 +376,10 @@ app.post("/api/payment-methods", (req, res) => {
           .status(500)
           .json({ message: "Error creating payment method." })
       }
-      res
-        .status(201)
-        .json({
-          message: "Payment method created successfully.",
-          paymentMethodId: results.insertId,
-        })
+      res.status(201).json({
+        message: "Payment method created successfully.",
+        paymentMethodId: results.insertId,
+      })
     }
   )
 })
@@ -427,3 +425,51 @@ app.delete("/api/payment-methods/:paymentMethodId", (req, res) => {
 app.listen(port, () => {
   console.log(`Backend server is running on http://localhost:${port}`)
 })
+
+// here is new code
+
+// const express = require("express")
+// const cors = require("cors")
+// const db = require("./database.js")
+// const userRoutes = require("./routes/users")
+// const budgetRoutes = require("./routes/budgets.js")
+// const categoryRoutes = require("./routes/categories.js")
+// const currencyRoutes = require("./routes/currencies.js")
+// const paymentMethodRoutes = require("./routes/paymentMethods.js")
+// // const expenseRoutes = require("./routes/expenses")
+
+// const app = express()
+// const port = 3001
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // Allow requests from the front-end running on localhost:3000
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
+//   })
+// )
+// app.use(express.json()) // To parse JSON data in request bodies
+
+// app.use("/api/users", userRoutes)
+// app.use("/api/budgets", budgetRoutes)
+// app.use("/api/categories", categoryRoutes)
+// app.use("/api/currencies", currencyRoutes)
+// app.use("/api/payment-methods", paymentMethodRoutes)
+// // app.use("/api/expenses", expenseRoutes)
+
+// // ------------------------- EXPENSES -------------------------
+
+// // Get all expenses
+// app.get("/api/expenses", (req, res) => {
+//   db.query("SELECT * FROM expenses", (err, results) => {
+//     if (err) {
+//       console.error(err)
+//       return res.status(500).json({ message: "Error retrieving expenses." })
+//     }
+//     res.json(results)
+//   })
+// })
+
+// // Start the backend server
+// app.listen(port, () => {
+//   console.log(`Backend server is running on http://localhost:${port}`)
+// })

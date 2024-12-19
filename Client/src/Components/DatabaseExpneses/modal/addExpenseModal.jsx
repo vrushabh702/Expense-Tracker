@@ -154,39 +154,75 @@ const AddExpenseModal = ({
               <Col md={6} key={field.key}>
                 <Form.Group className="mb-3" controlId={field.key}>
                   <Form.Label>{field.label}</Form.Label>
+
                   {field.type === "select" ? (
-                    <Form.Select
-                      value={formData[field.key] || ""} // Default to empty if no value is selected
-                      onChange={(e) => handleFormChange(e, field.key)}
-                      isInvalid={errors[field.key]} // Show red border if invalid
-                    >
-                      <option value="" disabled>
-                        Select {field.label}
-                      </option>
-                      {(field.key === "category"
-                        ? categories
-                        : field.key === "paymentMethod"
-                        ? paymentMethods
-                        : field.key === "currency"
-                        ? currencies
-                        : []
-                      ).map((option) => (
-                        <option
-                          key={getOptionKey(option, field.key)}
-                          value={getOptionKey(option, field.key)}
-                        >
-                          {getOptionLabel(option, field.key)}
+                    // Conditionally render the select dropdown based on the field key
+                    field.key === "category" ? (
+                      <Form.Select
+                        value={formData.category || ""}
+                        onChange={(e) => handleFormChange(e, "category")}
+                        isInvalid={errors.category}
+                      >
+                        <option value="" disabled>
+                          Select Category
                         </option>
-                      ))}
-                    </Form.Select>
+                        {categories.map((category) => (
+                          <option
+                            key={category.categoryId}
+                            value={category.categoryId}
+                          >
+                            {category.categoryName}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    ) : field.key === "paymentMethod" ? (
+                      <Form.Select
+                        value={formData.paymentMethod || ""}
+                        onChange={(e) => handleFormChange(e, "paymentMethod")}
+                        isInvalid={errors.paymentMethod}
+                      >
+                        <option value="" disabled>
+                          Select Payment Method
+                        </option>
+                        {paymentMethods.map((paymentMethod) => (
+                          <option
+                            key={paymentMethod.paymentMethodId}
+                            value={paymentMethod.paymentMethodId}
+                          >
+                            {paymentMethod.paymentMethodName}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    ) : field.key === "currency" ? (
+                      <Form.Select
+                        value={formData.currency || ""}
+                        onChange={(e) => handleFormChange(e, "currency")}
+                        isInvalid={errors.currency}
+                      >
+                        <option value="" disabled>
+                          Select Currency
+                        </option>
+                        {currencies.map((currency) => (
+                          <option
+                            key={currency.currencyId}
+                            value={currency.currencyId}
+                          >
+                            {currency.currencyCode}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    ) : null
                   ) : (
+                    // Render normal Form.Control for text inputs
                     <Form.Control
                       type={field.type}
-                      value={formData[field.key]}
+                      value={formData[field.key] || ""}
                       onChange={(e) => handleFormChange(e, field.key)}
-                      isInvalid={errors[field.key]} // Show red border if invalid
+                      isInvalid={errors[field.key]}
                     />
                   )}
+
+                  {/* Display validation error if present */}
                   {errors[field.key] && (
                     <Form.Control.Feedback type="invalid">
                       {errors[field.key]}

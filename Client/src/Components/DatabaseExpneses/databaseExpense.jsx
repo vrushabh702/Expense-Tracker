@@ -72,22 +72,23 @@ const DataBaseExpense = () => {
   }
 
   const handleEditExpense = (expense) => {
+    console.log("handleEditExpense", expense)
+
     setIsUpdateMode(true)
     setFormData({
       userName: expense.userName,
       userCountry: expense.userCountry,
       userEmail: expense.userEmail,
-      category: expense.category,
+      category: expense.categoryName,
       amount: expense.amount,
-      paymentMethod: expense.paymentMethod,
+      paymentMethod: expense.paymentMethodId,
       date: expense.date,
       description: expense.description,
       budget: expense.budget,
-      currency: expense.currency,
+      currency: expense.currencyId,
     })
     setShowModal(true)
   }
-
   const handleAddExpense = (data, isUpdate) => {
     if (isUpdate) {
       console.log("Updating expense: ", data)
